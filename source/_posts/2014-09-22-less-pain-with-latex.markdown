@@ -15,6 +15,16 @@ Almost every major conference and journal accepts scientific papers as LaTeX doc
 Since it was invented many different tools were created to help to create documents using LaTeX.
 However, using LaTeX is still hard.
 
-##	Problems with LaTeX
+1. Before creating any document, you need to install LaTeX distribution.
+On Windows it is [MiKTeX](http://www.howtotex.com/howto/installing-latex-on-windows/)
+and [TeX Live](http://en.wikipedia.org/wiki/TeX_Live) on Linux.
+There are many packages in these distros, and it is not obvious wich one to install.
+
 ## My solution
 ## How it can be improved
+There are online solutions ([papeeria](http://papeeria.com), [sharelatex](https://www.sharelatex.com/), [writelatex](https://www.writelatex.com/), e.t.c.).
+Main problems with them: 
+
+1. Internet connection is often not stable/slow.
+1. Slow navigation between PDF and source
+1. Changes in pictures requires reupploading.
