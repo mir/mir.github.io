@@ -9,7 +9,8 @@
   <meta name="author" content="Marat Yuldashev">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="LaTeX is a document preparation system and document markup language (Wikipedia).
+It is widely used within math, physics, computer science, and other &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +33,18 @@
 <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-55376775-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -67,6 +80,117 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/22/less-pain-with-latex/">Less Pain With LaTeX</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-22T21:54:53+04:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:54 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>LaTeX is a document preparation system and document markup language (<a href="http://en.wikipedia.org/wiki/LaTeX">Wikipedia</a>).
+It is widely used within math, physics, computer science, and other fields.
+Almost every major conference and journal accepts scientific papers as LaTeX documents
+(e.g. <a href="http://www.ieee.org/conferences_events/conferences/publishing/templates.html">IEEE</a>, <a href="http://www.acm.org/publications/latex_style/">ACM</a>, <a href="http://www.ifac-control.org/events/information-for-ifac-authors/latex-style-for-ifac-papers">IFAC</a>, <a href="http://arxiv.org/help/submit">arXiv</a>).
+Since it was invented many different tools were created to help to create documents using LaTeX.
+However, using LaTeX is still hard.</p>
+
+<p>Before creating any document, you need to install LaTeX distribution.
+On Windows it is <a href="http://www.howtotex.com/howto/installing-latex-on-windows/">MiKTeX</a>
+and <a href="http://en.wikipedia.org/wiki/TeX_Live">TeX Live</a> on Linux.
+There are many packages in these distros, and it is not obvious which one to install.</p>
+
+<p>Setup a text editor or IDE.
+Typing</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">\</span><span class="k">begin</span><span class="p">{</span><span class="n">equation</span><span class="p">}</span>
+    <span class="p">\</span><span class="k">begin</span><span class="p">{</span><span class="n">aligned</span><span class="p">}</span>
+        <span class="o">&amp;</span> <span class="p">\\</span>      
+    <span class="p">\</span><span class="k">end</span><span class="p">{</span><span class="n">aligned</span><span class="p">}</span>
+<span class="p">\</span><span class="k">end</span><span class="p">{</span><span class="n">equation</span><span class="p">}</span></code></pre></div>
+
+
+<p>and putting cursor between &amp; and \ \
+every time you need a mathematical equation is very annoying.
+Your text editor should generate those thins typing a couple of letters then hitting tab (e.g. al + tab).
+There are plenty of options.
+Two most upvoted answers on stackoverflow.com about
+text <a href="http://tex.stackexchange.com/questions/339/latex-editors-ides">editor for Latex</a> are <a href="http://en.wikipedia.org/wiki/Emacs">Emacs</a> and <a href="http://en.wikipedia.org/wiki/Vim_(text_editor">Vim</a>).
+Both of them require steap learning curve, i.e.
+it is not straight forward hot to configure and start to use them.
+Consider Vim editor.
+It is a great tool and it can be extremely effective for editing LaTeX documents.
+However, it has following problems. First, vim is a linux tool, it is not common on Windows platform. Second, every Vim user has different configurations, key-bindings and plugins.
+Editing document in Vim looks like magic for other person.
+It is almost impossible to give keyboard to smb else to edit couple of lines.
+Configuring vim on a fresh-install system takes some time and effort.</p>
+
+<p>After about a year of working in vim, I moved to <a href="http://www.sublimetext.com/">Sublime Text</a>.
+Great editor.
+It has a very easy to use package installation system,
+it doesn&rsquo;t have weired vi-like key bindings. Sublime text works
+perfectly well on linux, windows and Mac.
+Completion system, spell checker, latex plugins, inverse search capabilities,
+easy to use build system.</p>
+
+<p>Use appropriate tools for building documents (latexmk in linux, texify for linux).
+They execute pdflatex/bibtex/&hellip; appropriate times,
+convert eps images to pdf if needed, and compile your document very fast.
+They support inverse/forward search (<ctrl>+mouse click in pdf opens an editor
+in the right place).
+If you have two monitors it is handy to use automatic compilation of the pdf after saving document.</p>
+
+<p>Here are some hints on how to properly setup Latex environment:</p>
+
+<ol>
+<li>Install LaTeX distribution (Texlive on Linux, MikTex on Windows, Mactex on Mac)</li>
+<li>Install build tools (latexmk or texify)</li>
+<li>Install Sublime Text</li>
+<li>Install package control for sublime text (see <a href="https://sublime.wbond.net/installation">official docs</a>)</li>
+<li>Install <a href="https://github.com/SublimeText/LaTeXTools">Latextools</a> package (hit ctrl-p, then choose Install package, then choose Latextools).</li>
+<li>Configure inverse search (on Ubuntu you should probably create symlink /usr/bin/subl or /usr/bin/sublime-text or /usr/bin/sublime). Inverse search enables to use ctrl+mouseclick on pdf which will open Sublime text and position mouse over on appropriate line.</li>
+<li>Configure your favorite snippets (e.g. al+tab) in LaTeX.sublime-completions file (preferences->browse packages->User). My favorite al comletion looks like this:</li>
+</ol>
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">{</span> <span class="s2">&quot;trigger&quot;</span><span class="p">:</span> <span class="s2">&quot;al&quot;</span><span class="p">,</span> <span class="s2">&quot;contents&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin{equation}</span><span class="se">\n\\</span><span class="s2">begin{aligned}</span><span class="se">\n</span><span class="s2">&amp; $0</span><span class="se">\n\\</span><span class="s2">end{aligned}</span><span class="se">\n\\</span><span class="s2">end{equation}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">},</span></code></pre></div>
+
+
+<p>A good practice is to store sublime user settings in Dropbox (Copy User folder to dropbox and create a symlink to it from /home/user/.config/sublime-text3/).</p>
+
+<h2>How it can be improved</h2>
+
+<p>There are online solutions (<a href="http://papeeria.com">papeeria</a>, <a href="https://www.sharelatex.com/">sharelatex</a>, <a href="https://www.writelatex.com/">writelatex</a>, e.t.c.).
+Main problems with them:</p>
+
+<ol>
+<li>Internet connection is often not stable/slow.</li>
+<li>Slow navigation between PDF and source (forward/inverse search).</li>
+<li>Changes in pictures requires re-uploading.</li>
+</ol>
+
+
+<p>Hope those things will be solved soon and compiling with LaTeX will be easy as writing an email in Gmail.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -78,6 +202,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/22/less-pain-with-latex/">Less Pain With LaTeX</a>
+      </li>
     
   </ul>
 </section>
