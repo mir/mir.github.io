@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Latex | Personal thoughts]]></title>
-  <link href="http://mir.github.io/blog/categories/latex/atom.xml" rel="self"/>
-  <link href="http://mir.github.io/"/>
-  <updated>2014-10-06T21:42:18+04:00</updated>
-  <id>http://mir.github.io/</id>
+  <link href="http://maratyv.com/blog/categories/latex/atom.xml" rel="self"/>
+  <link href="http://maratyv.com/"/>
+  <updated>2014-10-06T22:45:07+04:00</updated>
+  <id>http://maratyv.com/</id>
   <author>
     <name><![CDATA[Marat Yuldashev]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Less Pain With LaTeX]]></title>
-    <link href="http://mir.github.io/blog/2014/09/22/less-pain-with-latex/"/>
+    <link href="http://maratyv.com/blog/2014/09/22/less-pain-with-latex/"/>
     <updated>2014-09-22T21:54:53+04:00</updated>
-    <id>http://mir.github.io/blog/2014/09/22/less-pain-with-latex</id>
+    <id>http://maratyv.com/blog/2014/09/22/less-pain-with-latex</id>
     <content type="html"><![CDATA[<p>LaTeX is a document preparation system and document markup language (<a href="http://en.wikipedia.org/wiki/LaTeX">Wikipedia</a>).
 It is widely used within math, physics, computer science, and other fields.
 Almost every major conference and journal accepts scientific papers as LaTeX documents
