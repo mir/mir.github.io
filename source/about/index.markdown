@@ -25,7 +25,8 @@ Main publications
 
 * Nonlinear dynamical model of Costas loop and an approach
 to the analysis of its stability in the large. Signal Processing. Volume 108, March 2015, pp. 124-135. 2015.
-* Simulation of nonlinear models of QPSK Costas loop in MATLAB Simulink. 6th International Congress on Ultra Modern Telecommunications and Control Systems and Workshops. 2014
+* Simulation of Analog Costas Loop Circuits. International Journal of Automation and Computing. 2014.
+* Simulation of nonlinear models of QPSK Costas loop in MATLAB Simulink. 6th International Congress on Ultra Modern Telecommunications and Control Systems and Workshops. 2014.
 * BPSK Costas loop: simulation of nonlinear models in MATLAB Simulink. 6th International Congress on Ultra Modern Telecommunications and Control Systems and Workshops. 2014.
 * Simulation of nonlinear models of modified BPSK Costas loop for non sinusoidal waveforms in MATLAB Simulink. 6th International Congress on Ultra Modern Telecommunications and Control Systems and Workshops, pp. 8253-8258. 2014.
 * Nonlinear Models of BPSK Costas Loop. 11th International Conference on Informatics in Control, Automation and Robotics (ICINCO 2014). pp. 704-710. 2014.
