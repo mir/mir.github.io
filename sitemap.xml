@@ -12,22 +12,22 @@
   
   
   <url>
-    <loc>http://maratyv.com/blog/archives/</loc>
-    <lastmod>2014-10-06T22:45:07+04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>http://maratyv.com/</loc>
-    <lastmod>2014-10-06T22:45:07+04:00</lastmod>
+    <lastmod>2014-11-08T14:19:44+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
+    <loc>http://maratyv.com/blog/archives/</loc>
+    <lastmod>2014-11-08T14:19:44+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
     <loc>http://maratyv.com/about/</loc>
-    <lastmod>2014-10-06T22:45:07+04:00</lastmod>
+    <lastmod>2014-11-08T14:19:44+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
