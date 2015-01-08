@@ -4,7 +4,7 @@
   <title><![CDATA[Personal thoughts]]></title>
   <link href="http://maratyv.com/atom.xml" rel="self"/>
   <link href="http://maratyv.com/"/>
-  <updated>2014-11-08T14:19:44+03:00</updated>
+  <updated>2015-01-09T00:59:57+03:00</updated>
   <id>http://maratyv.com/</id>
   <author>
     <name><![CDATA[Marat Yuldashev]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Buy a Snowboard]]></title>
+    <link href="http://maratyv.com/blog/2015/01/08/how-to-buy-a-snowboard/"/>
+    <updated>2015-01-08T23:47:52+03:00</updated>
+    <id>http://maratyv.com/blog/2015/01/08/how-to-buy-a-snowboard</id>
+    <content type="html"><![CDATA[<p><img src="http://maratyv.com/images/snowboard/snowboard.jpg"></p>
+
+<!-- more -->
+
+
+<p>If you are reading this article - you are complete noob.
+So, DO NOT BUY a snowboard, buy pair of snowboard boots!
+<img src="http://maratyv.com/images/snowboard/boots.jpg">
+This is the most important gear.
+You are going to wear them 6-7 hours a day.
+Go to the store, try 5-6 pairs and choose the most comfortable.
+Try to jump, bend them as much as you can, hit the floor with heal and toe,
+squeeze them.
+Do not pay attention to the labels,
+your legs will hate you after 30 minutes in those pretty and &ldquo;almost&rdquo; comfortable boots.</p>
+
+<p>Second thing you need is snowboard/ski trousers.
+<img src="http://maratyv.com/images/snowboard/trousers.jpg">
+Your favorite pair of jeans is not water resistant.
+The become an iceberg after 15 minutes of riding. The same thing with gloves.</p>
+
+<p>Next thing is a helmet.
+<img src="http://maratyv.com/images/snowboard/helmet.jpg">
+ Every snowboarder hit his head multiple times.
+Some of them have no brain, so it is ok.
+Choose your helmet the same way as boots.
+It should be very comfortable, almost unnoticeable.
+Everything else is not important.</p>
+
+<p>Now you can ride comfortably with rented snowboard.
+It is very pleasant to go to the with a little bag and free hands.
+Try different sizes, different local slopes.
+Try to rent gear from different shops.
+You will notice, that 85% of riding performance
+is your skill.
+It doesn&rsquo;t really matter how stiff your bindings,
+how stiff you board, is it rocker/camber/burton/furton&hellip;
+Bindings matter. Buy a good ones. They will cost you 200$+.
+Check that your local shop has spare parts for them.</p>
+
+<p>At this moment you don&rsquo;t need my advice.
+You will choose your deck yourself.
+Therefore, if you are reading this, DO NOT BUY A SNOWBOARD.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Less Pain With LaTeX]]></title>
@@ -24,6 +75,9 @@ Almost every major conference and journal accepts scientific papers as LaTeX doc
 (e.g. <a href="http://www.ieee.org/conferences_events/conferences/publishing/templates.html">IEEE</a>, <a href="http://www.acm.org/publications/latex_style/">ACM</a>, <a href="http://www.ifac-control.org/events/information-for-ifac-authors/latex-style-for-ifac-papers">IFAC</a>, <a href="http://arxiv.org/help/submit">arXiv</a>).
 Since it was invented many different tools were created to help to create documents using LaTeX.
 However, using LaTeX is still hard.</p>
+
+<!-- more -->
+
 
 <p>Before creating any document, you need to install LaTeX distribution.
 On Windows it is <a href="http://www.howtotex.com/howto/installing-latex-on-windows/">MiKTeX</a>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Latex | Personal thoughts]]></title>
   <link href="http://maratyv.com/blog/categories/latex/atom.xml" rel="self"/>
   <link href="http://maratyv.com/"/>
-  <updated>2014-11-08T14:19:44+03:00</updated>
+  <updated>2015-01-09T00:59:57+03:00</updated>
   <id>http://maratyv.com/</id>
   <author>
     <name><![CDATA[Marat Yuldashev]]></name>
@@ -24,6 +24,9 @@ Almost every major conference and journal accepts scientific papers as LaTeX doc
 (e.g. <a href="http://www.ieee.org/conferences_events/conferences/publishing/templates.html">IEEE</a>, <a href="http://www.acm.org/publications/latex_style/">ACM</a>, <a href="http://www.ifac-control.org/events/information-for-ifac-authors/latex-style-for-ifac-papers">IFAC</a>, <a href="http://arxiv.org/help/submit">arXiv</a>).
 Since it was invented many different tools were created to help to create documents using LaTeX.
 However, using LaTeX is still hard.</p>
+
+<!-- more -->
+
 
 <p>Before creating any document, you need to install LaTeX distribution.
 On Windows it is <a href="http://www.howtotex.com/howto/installing-latex-on-windows/">MiKTeX</a>
