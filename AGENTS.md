@@ -1,6 +1,8 @@
 # maratyv.com — personal site
 
-Static personal site on GitHub Pages (`master` branch). Plain HTML + one CSS file. **No build step, no JS, no external dependencies** (no CDNs, web fonts, analytics, frameworks). It must keep working untouched for years.
+- Static personal site on GitHub Pages (`master` branch).
+- Plain HTML + one CSS file. 
+- No build step, no JS, no external dependencies
 
 ## Structure
 
@@ -11,6 +13,13 @@ Static personal site on GitHub Pages (`master` branch). Plain HTML + one CSS fil
 
 ## Design code (binding)
 
+- Keep the design intentionally minimalistic. 
+- Any element, color, or accent should be intentional and serve a purpose.
+- Prefer to use fonts and spacing to separate elements from each other instead of blocks, lines, or other elements
+- If some post introduces a new element or style, propose to consistently apply that changes to other pages where it make sense
+- Never squash images and videos vertically or horizontally, including the carusels
+- Prefer shades of gray to colors
+
 Editorial-serif direction, black/white/gray only:
 
 - Serif system stack (Charter/Georgia). One typeface, weights 400/700.
@@ -20,15 +29,3 @@ Editorial-serif direction, black/white/gray only:
 - No borders except 1px hairlines (`--ink-faint`) between major sections. No shadows, no rounded corners.
 - Media full column width. Carousels are CSS-only: `.carousel` flex + `scroll-snap-type: x mandatory`.
 - Spacing in multiples of `--space` (1.5rem).
-
-## Adding a post
-
-1. Source drafts live in `../posts/linkedin/<n>-<name>/` (numbered = published; `idea-*` = not ready — never import those).
-2. Convert the final markdown draft to HTML by hand into `posts/<slug>/index.html`, copying an existing post page as the template. No converter scripts.
-3. Copy media into the post folder; compress large images.
-4. Add the entry to the top of the list in `index.html` and a `<url>` to `sitemap.xml`.
-
-## Rules
-
-- Never introduce tooling, package.json, generators, or JS unless explicitly asked.
-- Don't push to `master` without confirmation.
