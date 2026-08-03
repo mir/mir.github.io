@@ -39,8 +39,8 @@ h1 { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.01em; }
 h2 { font-size: var(--step-1); font-weight: 700; }
 h3 { font-size: var(--step-0); font-weight: 700; }
 
-header.site { margin-bottom: calc(var(--space) * 3); }
-header.site nav a, a.back { color: var(--ink-soft); font-size: var(--step--1); }
+header.site { margin-bottom: calc(var(--space) * 2); }
+a.back { color: var(--ink-soft); font-size: var(--step--1); }
 
 a { color: var(--ink); text-decoration: underline;
     text-decoration-thickness: 1px; text-underline-offset: 3px;
@@ -51,7 +51,7 @@ time { display: block; font-size: var(--step--1); color: var(--ink-soft);
        font-variant-numeric: tabular-nums; margin-bottom: 0.25rem; }
 
 /* --- main page post list --- */
-main.list article { margin-bottom: calc(var(--space) * 3); }
+main.list article { margin-bottom: calc(var(--space) * 2); }
 main.list article h2 { margin-bottom: 0.75rem; }
 
 /* --- post page prose --- */
@@ -73,9 +73,9 @@ hr { border: none; border-top: 1px solid var(--ink-faint);
 /* --- media --- */
 img, video { max-width: 100%; height: auto; display: block; }
 figcaption { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.25rem; }
-.carousel { display: flex; gap: 0.5rem; overflow-x: auto;
+.carousel { display: flex; align-items: flex-start; gap: 0.5rem; overflow-x: auto;
             scroll-snap-type: x mandatory; scrollbar-width: thin; }
-.carousel > * { flex: 0 0 85%; scroll-snap-align: center; margin-bottom: 0; }
+.carousel > * { flex: 0 0 85%; min-width: 0; scroll-snap-align: center; margin-bottom: 0; }
 
 /* --- footer --- */
 footer.site { border-top: 1px solid var(--ink-faint); padding-top: var(--space);

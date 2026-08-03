@@ -11,6 +11,19 @@
 - `cv/index.html` — CV.
 - `style.css` — the only stylesheet. Design tokens and policies are documented at the top of the file.
 
+## Local development
+
+- When previewing the site locally, run BrowserSync in a dedicated detached `tmux` session so its output can be watched independently:
+
+```sh
+tmux new-session -d -s maratyv-server -c "$PWD" \
+  'npx browser-sync start --server . --files "**/*.{html,css,js,png,jpg,jpeg,gif,svg,mp4}" --listen 127.0.0.1 --no-open --no-ui --no-ghost-mode --no-notify'
+```
+
+- Open the preview at `http://127.0.0.1:3000`.
+- Watch the server with `tmux attach -t maratyv-server` and detach with `Ctrl-b d`.
+- Stop it with `tmux kill-session -t maratyv-server`.
+
 ## Design code (binding)
 
 - Keep the design intentionally minimalistic. 
