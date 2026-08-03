@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Can you handle Anthropic engineer assignment? — Marat Yuldashev">
+<title>Can you handle Anthropic engineer assignment? — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← Marat Yuldashev</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-01-28">28/01/2026</time>
+    <h1>Can you handle Anthropic engineer assignment?</h1>
+  </header>
+  <p>Anthropic recently open-sourced a performance engineering take-home challenge, and it perfectly captures why LLM infrastructure needs expert-level engineers.</p>
+  <p>You're given a simulated processor: 12 ALU (Arithmetic Logic Unit - performs arithmetic and logical operations) slots, 6 vector ALU slots, limited loads/stores (variable assignment), and 1536 words of scratch memory. The task is to optimize a tree traversal kernel from its naive baseline.</p>
+  <p>You can think of it as PyTorch vs. hand-tuned CUDA, but stripped down to fundamentals. How do you transform the frontier LLM architecture into a best-performing sequence of low-level GPU operations leveraging high-performance instructions?</p>
+  <p>This mini-architecture mirrors exactly what happens inside real GPUs:</p>
+  <ul>
+    <li>VLIW slot limits = CUDA core constraints</li>
+    <li>Scratch memory = shared memory and registers</li>
+    <li>Vector operations (VLEN=8) = warp-level execution</li>
+    <li>Memory access patterns = coalesced reads</li>
+  </ul>
+  <p>Every optimization technique here translates directly to production ML systems.</p>
+  <p>Here are some typical optimization techniques that can be used for this task:</p>
+  <ol>
+    <li>Instruction packing: each cycle can contain 2-12 operations of each type.</li>
+    <li>Vectorization: the same arithmetic operation can be done simultaneously for 8 numbers at once with SIMD.</li>
+    <li>Loop unrolling: doing loops in batches that match the instruction parallelism greatly speeds things up.</li>
+    <li>Memory access optimization: loading operations are expensive, therefore pre-loading in advance helps a lot.</li>
+    <li>If statements can be replaced by arithmetic.</li>
+    <li>Speculative optimizations: we can precompute the values of certain if-statements and check the condition later. If it is true, we already have the result in place; otherwise, do the normal sequential calculation.</li>
+  </ol>
+  <p>But that's enough to get you to 3k-4k cycles in one evening - I've managed to do 4033 cycles. Claude Opus 4.5 matched the best human performance at ~1,790 cycles in a casual coding session. It hit ~1,363 cycles after extended optimization. And the best engineers can do even better!</p>
+  <p>What's your limit?</p>
+  <p>Link to the challenge: <a href="https://github.com/anthropics/original_performance_takehome.git">https://github.com/anthropics/original_performance_takehome.git</a><br>
+  High Performance Computing Course: <a href="https://en.algorithmica.org/hpc/">https://en.algorithmica.org/hpc/</a><br>
+  MIT Course on a related topic: <a href="https://www.youtube.com/playlist?list=PLUl4u3cNGP63VIBQVWguXxZZi0566y7Wf">https://www.youtube.com/playlist?list=PLUl4u3cNGP63VIBQVWguXxZZi0566y7Wf</a><br>
+  Deep dive into the problem: <a href="https://trirpi.github.io/posts/anthropic-performance-takehome/">https://trirpi.github.io/posts/anthropic-performance-takehome/</a></p>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

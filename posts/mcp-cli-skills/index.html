@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="From MCP Tax to Self-Verifying Agents: Why CLI + Custom Skills Close the Loop — Marat Yuldashev">
+<title>From MCP Tax to Self-Verifying Agents: Why CLI + Custom Skills Close the Loop — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← Marat Yuldashev</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-02-15">15/02/2026</time>
+    <h1>From MCP Tax to Self-Verifying Agents: Why CLI + Custom Skills Close the Loop</h1>
+  </header>
+  <p>I didn't start by trying to save tokens.</p>
+  <p>I started by trying to get an agent to <strong>finish work like a developer</strong>: change code, run it, check what happened, fix what's broken, repeat until correct.</p>
+  <p>That "repeat until correct" step is the difference between a demo and something you can rely on. The bottleneck isn't usually the model—it's the tool layer.</p>
+  <h2>When integration consumes your context</h2>
+  <p>MCP is quickly becoming the standard for tool integration. It's flexible and well-supported.</p>
+  <p>It can also be expensive: <strong>it front-loads context with tool definitions</strong> and ships back <strong>verbose, schema-shaped responses</strong>.</p>
+  <p>Three minutes into a team demo, my agent forgot what we were building. With full MCP tool definitions loaded, it drifted—confidently solving the wrong problem while ignoring the ticket I'd just referenced.</p>
+  <p>The issue wasn't the model. Jira via MCP cost ~30K tokens in tool definitions alone—20% of a 150K window, before I typed anything. Then responses piled on nested metadata the agent had to reason over. That overhead compounds fast.</p>
+  <p><strong>Agents that ship are agents that verify.</strong> If checking work is expensive, it gets done less. If it's cheap, it becomes the default.</p>
+  <p>So I optimized for one thing: <strong>make verification cheap enough to run constantly.</strong></p>
+  <p>That led me through: <strong>MCP → CLI → custom skills</strong>.</p>
+  <h2>CLI: the token-efficient middle ground</h2>
+  <p>MCP shines for broad coverage. But most agent workflows are loops: fetch state, act, re-check, decide. In those loops, verbosity is poison.</p>
+  <p>So instead of "How do I integrate Jira?" I asked: <strong>How do I get the minimum signals needed for the next correct step?</strong></p>
+  <p>CLIs don't ship large tool schemas. They output <strong>compact, human-readable structure</strong> without the API-shaped tax.</p>
+  <p>Microsoft's Playwright benchmarks: MCP costs ~114K tokens per browser task. CLI costs ~27K. That's a different operating regime—the agent can afford to check itself.</p>
+  <p>Still—CLI output is designed for humans in general, not your agent in your workflow.</p>
+  <h2>Custom skills: outputs shaped to decisions</h2>
+  <p>A custom skill returns exactly what you need to decide the next step—nothing else.</p>
+  <p>For Jira, my agent only ever used: owner, title, description, status, last 5 comments, last updated. So I built a skill returning <em>only that</em>. No relationship trees. No metadata hierarchies. No fields that never affect the next action.</p>
+  <p>This is where token efficiency becomes thinking efficiency. Less noise means the agent focuses on what matters.</p>
+  <p>The workflow: run it, watch what you actually use, delete the rest, repeat.</p>
+  <p>Don't start with "what tools can I connect?" Start with: <strong>What does the agent need to verify, and how often?</strong></p>
+  <p>Pick the narrowest interface that keeps verification cheap:</p>
+  <ul>
+    <li>MCP when you truly need broad capability</li>
+    <li>CLI when you need efficiency and predictable outputs</li>
+    <li>Custom skills when you know the exact signals that drive decisions</li>
+  </ul>
+  <p>As a good manager, you equip your team with tools to unstuck themselves.</p>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

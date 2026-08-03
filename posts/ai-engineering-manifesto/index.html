@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI Engineering Manifesto — Marat Yuldashev">
+<title>AI Engineering Manifesto — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← Marat Yuldashev</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-04-05">05/04/2026</time>
+    <h1>AI Engineering Manifesto</h1>
+  </header>
+  <p>Every major advance in software has the same effect: work that once consumed skilled humans becomes infrastructure.</p>
+  <p>Compilers did it to assembly. Version control did it to collaboration. CI/CD did it to releases. Agents will do it to a large class of repetitive software work.</p>
+  <p>This is no longer speculative. <a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents">Stripe</a>, <a href="https://www.youtube.com/watch?v=i1tZN41VKcE">Uber</a>, and <a href="https://builders.ramp.com/post/why-we-built-our-background-agent">Ramp</a> have already shown versions of it in production. We can see the same pattern in our own prototype: systems watch Jira and GitLab for eligible tasks, execution workers turn them into merge requests, and engineers review the output.</p>
+  <p>The point is not that AI can write code. The point is that engineering work is being reorganized. The best teams will use AI to protect deep engineering work and industrialize repetitive execution.</p>
+  <ol>
+    <li>
+      <h2>Engineers must stay close to reality.</h2>
+      <p>The truth of a system lives in logs, traces, profilers, packet captures, crash dumps, and source code. Any AI strategy that moves engineers away from those interfaces is a regression. We are not trying to turn engineers into ticket routers.</p>
+    </li>
+    <li>
+      <h2>AI should remove toil before it imitates judgment.</h2>
+      <p>The first class of work to automate is repetitive, bounded, and reviewable work: dependency upgrades, boilerplate endpoints, config migrations, mechanical refactors, cross-repo fixes, test backfills. If a task does not need human judgment, it should not monopolize human time.</p>
+    </li>
+    <li>
+      <h2>Expertise should be encoded, not re-performed.</h2>
+      <p>If the same migration appears in forty repositories, the right answer is rarely to do it forty times. The right answer is to encode the method once, attach the right context and validation, and let the system execute it repeatedly. Reuse is no longer only for code - it is for operational knowledge.</p>
+    </li>
+    <li>
+      <h2>AI should make engineers deeper, not shallower.</h2>
+      <p>A good agent is not only an executor. It is also a patient technical partner. It should help engineers learn unfamiliar tools, navigate large codebases, and get one layer closer to the truth of the system instead of stopping at abstraction.</p>
+    </li>
+    <li>
+      <h2>The real advantage comes from compounding infrastructure.</h2>
+      <p>Durable advantage comes from reusable workflows, access to code and project context, reliable execution environments, and feedback loops that make the system better every month. One engineer moving faster for a week is not a transformation.</p>
+    </li>
+    <li>
+      <h2>Success is not more code. Success is more focus.</h2>
+      <p>We should measure this shift by how much deep work we protect, how much backlog toil disappears, how much faster engineers learn, and how much more of their week is spent on problems that actually require them.</p>
+    </li>
+  </ol>
+  <p>We reject a future where engineers become editors of machine output and lose contact with real systems.</p>
+  <p>We want the opposite: engineers who go deeper, learn faster, and spend more of their time where judgment matters; systems that absorb the repetitive work around them; and organizations that get stronger every quarter because their expertise is becoming infrastructure.</p>
+  <p>The future engineer is not less technical. The future engineer is closer to the system, amplified by agents, and able to turn hard-won judgment into reusable machinery.</p>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

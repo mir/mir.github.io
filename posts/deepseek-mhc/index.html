@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Stability of Dynamical Systems, Residual Streams, and DeepSeek's mHC — Marat Yuldashev">
+<title>Stability of Dynamical Systems, Residual Streams, and DeepSeek's mHC — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← Marat Yuldashev</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-01-11">11/01/2026</time>
+    <h1>Stability of Dynamical Systems, Residual Streams, and DeepSeek's mHC</h1>
+  </header>
+  <p>Several years ago I was a math professor. My research was <strong>stability of dynamical systems</strong>: when does a system stay bounded — and when does it blow up, oscillate, or collapse to zero?</p>
+  <p>LLMs have the same failure modes.<br>
+  As you stack layers, signals and gradients can <strong>vanish</strong> (no learning) or <strong>explode</strong> (training gets destroyed).</p>
+  <div class="carousel">
+    <img src="hc.png" alt="Diagram of Hyper-Connections: multiple parallel residual streams mixed by a learned matrix at each layer">
+    <img src="res.png" alt="Diagram of a residual connection: identity path plus learned residual correction">
+  </div>
+  <p>That’s why residual connections were such a breakthrough:</p>
+  <pre><code>x ↦ x + F(x)</code></pre>
+  <p>Instead of forcing every block to learn the full transformation, you keep an <strong>identity path</strong> and only learn the residual “correction”. The identity route is what keeps information and gradients alive across depth.</p>
+  <p>Transformers kept this idea: a <strong>residual stream</strong> that survives hundreds of layers.</p>
+  <p>Hyper-Connections (HC) ask: what if that residual stream is <em>wider</em>?<br>
+  Instead of 1 stream, keep <strong>n parallel streams</strong> and learn how to mix them each layer with a matrix <code>H</code> (so streams can exchange information).</p>
+  <p>The catch is stability.<br>
+  Across depth you don’t apply one mixer — you apply a <em>product</em> of mixers:</p>
+  <pre><code>(... H^(l+2) H^(l+1) H^l) x</code></pre>
+  <p>Products of unconstrained matrices are where stability goes to die. DeepSeek measured this directly: HC could amplify signals by ~3000× and trigger loss/gradient spikes.</p>
+  <p>Their fix (mHC) is beautifully “systems”:<br>
+  constrain the residual mixing matrix so it can <strong>redistribute</strong> signal, but can’t <strong>create</strong> or <strong>destroy</strong> it.</p>
+  <p>They make <code>H</code> <strong>doubly stochastic</strong>:</p>
+  <ul>
+    <li>all entries <code>≥ 0</code></li>
+    <li>every row sums to <code>1</code></li>
+    <li>every column sums to <code>1</code></li>
+  </ul>
+  <p>Two key consequences:</p>
+  <ul>
+    <li><strong>Non-expansive mixing:</strong> <code>||H||₂ ≤ 1</code>, so the residual path can’t act as an amplifier</li>
+    <li><strong>Compositional stability:</strong> the product of doubly stochastic matrices is doubly stochastic, so the guarantee survives arbitrary depth</li>
+  </ul>
+  <p>In practice: parameterize an unconstrained matrix, make it positive (via <code>exp</code>), then run <strong>Sinkhorn–Knopp</strong> (iterative row/column normalization) to project onto the <strong>Birkhoff polytope</strong> (convex hull of permutation matrices).</p>
+  <p>The payoff shows up at scale (27B): mHC trains stably where HC spikes, and it improves reasoning benchmarks.</p>
+  <p>And the part GPU/systems folks will appreciate: HC is memory-hungry (more reads/writes).<br>
+  DeepSeek makes it viable with kernel fusion, selective recomputation, and pipeline/stream overlap — bringing overhead down to ~6.7% at <code>n=4</code>.</p>
+  <p>This doesn’t feel like an isolated trick. Constraining key weights to “good” mathematical sets (Stiefel, Birkhoff, …) is turning into a theme: <strong>constraints as enablers for scale</strong>, not just “regularization”.</p>
+  <p>Paper (mHC): <a href="https://arxiv.org/abs/2512.24880">https://arxiv.org/abs/2512.24880</a><br>
+  Hyper-Connections (Zhu et al., 2024): <a href="https://arxiv.org/abs/2409.19606">https://arxiv.org/abs/2409.19606</a><br>
+  Related: <a href="https://thinkingmachines.ai/blog/modular-manifolds/">https://thinkingmachines.ai/blog/modular-manifolds/</a></p>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

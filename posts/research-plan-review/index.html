@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="'Please implement this feature' is a vibe-trap. — Marat Yuldashev">
+<title>'Please implement this feature' is a vibe-trap. — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← Marat Yuldashev</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-01-03">03/01/2026</time>
+    <h1>'Please implement this feature' is a vibe-trap.</h1>
+  </header>
+  <p>When you write "implement X," the AI still does research → planning → coding.<br>
+  You just don't see any of it. You can't course-correct.</p>
+  <img src="vibe-pyramide.png" alt="The vibe pyramid: research, planning, and coding stages where small mistakes in research compound into a half-good, half-bad result">
+  <p>Now I use 3 stages:</p>
+  <ol>
+    <li><strong>Formulate</strong> → Write what you want, why, and for whom. Save to a file.</li>
+    <li><strong>Research</strong> → Ask the agent to scan your repo for reusable code, create user stories, check GitHub, Stack Overflow, Reddit for prior art, and save that to the markdown files. Review the result and remove 80% of it, to keep only essential components.</li>
+    <li><strong>Plan</strong> → Ask to create data flow diagrams, architecture, test scenarios, avoiding implementation details. Review the plan, and ask to clarify each step that you don't understand. Otherwise it will be a mess. Commit the plan to the repo.</li>
+    <li>Implement → Easy. Just mention the plan and ask to implement.</li>
+    <li>Iterate → Test everything manually. If it doesn't work, remove the implementation with git, fix the plan and try again.</li>
+  </ol>
+  <p>So</p>
+  <ul>
+    <li>Your understanding of the codebase is actually higher than before</li>
+    <li>There is no emotional connection to the resulting code. You can bash it until perfection.</li>
+    <li>Test coverage is growing</li>
+  </ul>
+  <p>Gambling-driven development is still fun, though.</p>
+  <ul>
+    <li>→ Research-Plan-Implement workflow (agents &amp; commands):<br>
+    <a href="https://github.com/mir/maratai/tree/main/claude-maratai-dev">https://github.com/mir/maratai/tree/main/claude-maratai-dev</a></li>
+    <li>→ More on context engineering (DEX):<br>
+    <a href="https://www.youtube.com/watch?v=rmvDxxNubIg">https://www.youtube.com/watch?v=rmvDxxNubIg</a></li>
+    <li>→ The project I'm working on:<br>
+    <a href="https://www.linkedin.com/posts/the-mike_datachat-agenticai-data-activity-7378685192091361280-X7BK">https://www.linkedin.com/posts/the-mike_datachat-agenticai-data-activity-7378685192091361280-X7BK</a></li>
+  </ul>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

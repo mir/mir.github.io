@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposal 1 — Editorial Serif</title>
+<style>
+  /* ============ DESIGN CODE ============
+     Direction: quiet editorial. Reads like a well-set book page.
+     Font: classic serif system stack — zero downloads, ages well.
+     Tone: warm near-black on paper white; dates recede in gray.
+  */
+  :root {
+    --ink:        #1a1a1a;  /* body text */
+    --ink-soft:   #6b6b6b;  /* dates, meta, footer */
+    --ink-faint:  #d4d4d4;  /* hairlines */
+    --paper:      #ffffff;
+    --measure:    44rem;    /* one column, always */
+    --step--1: 0.875rem;                          /* meta */
+    --step-0:  clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* body */
+    --step-1:  1.4rem;                            /* post titles */
+    --step-2:  1.9rem;                            /* page title */
+    --space:   1.5rem;      /* base unit; sections use 3x */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink:#e8e8e8; --ink-soft:#909090; --ink-faint:#333; --paper:#141414; }
+  }
+  /* Policies:
+     1. One typeface, two weights (regular, bold). Italic allowed for emphasis.
+     2. Titles are the only links in a list entry; underlined, ink-colored.
+     3. Dates always above titles, always dd/mm/yyyy, always soft gray.
+     4. No borders except 1px hairlines between major sections.
+     5. Media sits full column width, corners square, no shadows.
+     6. Spacing only in multiples of --space. Nothing centered except the column.
+  */
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: Charter, 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+    font-size: var(--step-0); line-height: 1.65;
+    color: var(--ink); background: var(--paper);
+    max-width: var(--measure); margin: 0 auto;
+    padding: calc(var(--space) * 2) var(--space) calc(var(--space) * 3);
+  }
+  h1 { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.01em; }
+  header { margin-bottom: calc(var(--space) * 3); }
+  article { margin-bottom: calc(var(--space) * 3); }
+  time { display: block; font-size: var(--step--1); color: var(--ink-soft);
+         font-variant-numeric: tabular-nums; margin-bottom: 0.25rem; }
+  article h2 { font-size: var(--step-1); font-weight: 700; margin-bottom: 0.75rem; }
+  article h2 a { color: var(--ink); text-decoration: underline;
+                 text-decoration-thickness: 1px; text-underline-offset: 3px;
+                 text-decoration-color: var(--ink-soft); }
+  article h2 a:hover { text-decoration-color: var(--ink); }
+  img, video { max-width: 100%; display: block; }
+  .carousel { display: flex; gap: 0.5rem; overflow-x: auto;
+              scroll-snap-type: x mandatory; scrollbar-width: thin; }
+  .carousel > * { flex: 0 0 85%; scroll-snap-align: center; }
+  footer { border-top: 1px solid var(--ink-faint); padding-top: var(--space);
+           margin-top: calc(var(--space) * 2);
+           font-size: var(--step--1); color: var(--ink-soft); }
+  footer a { color: var(--ink-soft); }
+  nav a { color: var(--ink-soft); font-size: var(--step--1); }
+  .ph { background: var(--ink-faint); aspect-ratio: 16/10; display: grid;
+        place-items: center; color: var(--ink-soft); font-size: var(--step--1); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Yuldashev Marat</h1>
+  <nav><a href="#">cv</a></nav>
+</header>
+<main>
+  <article>
+    <time datetime="2026-07-14">14/07/2026</time>
+    <h2><a href="#">MaratBench: how I eval models on my own tasks</a></h2>
+    <div class="carousel">
+      <div class="ph">slide 1 — scroll →</div>
+      <div class="ph">slide 2</div>
+      <div class="ph">slide 3</div>
+    </div>
+  </article>
+  <article>
+    <time datetime="2026-06-02">02/06/2026</time>
+    <h2><a href="#">An engineering manifesto</a></h2>
+    <div class="ph">single image</div>
+  </article>
+  <article>
+    <time datetime="2026-04-20">20/04/2026</time>
+    <h2><a href="#">MCP, CLI, skills — picking the right tool</a></h2>
+    <div class="ph">video poster</div>
+  </article>
+</main>
+<footer>
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="#">@maratyv</a><br>
+     <a href="#">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

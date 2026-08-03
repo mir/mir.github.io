@@ -1,0 +1,84 @@
+/* ============ DESIGN CODE — Editorial Serif ============
+   Direction: quiet editorial. Reads like a well-set book page.
+   Font: classic serif system stack — zero downloads, ages well.
+   Tone: warm near-black on paper white; dates recede in gray.
+
+   Policies:
+   1. One typeface, two weights (regular, bold). Italic allowed for emphasis.
+   2. Titles are the only links in a list entry; underlined, ink-colored.
+   3. Dates always above titles, always dd/mm/yyyy, always soft gray.
+   4. No borders except 1px hairlines between major sections.
+   5. Media sits full column width, corners square, no shadows.
+   6. Spacing only in multiples of --space. Nothing centered except the column.
+*/
+:root {
+  --ink:        #1a1a1a;  /* body text */
+  --ink-soft:   #6b6b6b;  /* dates, meta, footer */
+  --ink-faint:  #d4d4d4;  /* hairlines */
+  --paper:      #ffffff;
+  --measure:    44rem;    /* one column, always */
+  --step--1: 0.875rem;                                   /* meta */
+  --step-0:  clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);  /* body */
+  --step-1:  1.4rem;                                     /* post titles */
+  --step-2:  1.9rem;                                     /* page title */
+  --space:   1.5rem;      /* base unit; sections use 3x */
+}
+@media (prefers-color-scheme: dark) {
+  :root { --ink:#e8e8e8; --ink-soft:#909090; --ink-faint:#333; --paper:#141414; }
+}
+
+* { box-sizing: border-box; margin: 0; }
+body {
+  font-family: Charter, 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  font-size: var(--step-0); line-height: 1.65;
+  color: var(--ink); background: var(--paper);
+  max-width: var(--measure); margin: 0 auto;
+  padding: calc(var(--space) * 2) var(--space) calc(var(--space) * 3);
+}
+h1 { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: var(--step-1); font-weight: 700; }
+h3 { font-size: var(--step-0); font-weight: 700; }
+
+header.site { margin-bottom: calc(var(--space) * 3); }
+header.site nav a, a.back { color: var(--ink-soft); font-size: var(--step--1); }
+
+a { color: var(--ink); text-decoration: underline;
+    text-decoration-thickness: 1px; text-underline-offset: 3px;
+    text-decoration-color: var(--ink-soft); }
+a:hover { text-decoration-color: var(--ink); }
+
+time { display: block; font-size: var(--step--1); color: var(--ink-soft);
+       font-variant-numeric: tabular-nums; margin-bottom: 0.25rem; }
+
+/* --- main page post list --- */
+main.list article { margin-bottom: calc(var(--space) * 3); }
+main.list article h2 { margin-bottom: 0.75rem; }
+
+/* --- post page prose --- */
+main.post > header { margin-bottom: calc(var(--space) * 1.5); }
+main.post p, main.post ul, main.post ol, main.post blockquote,
+main.post pre, main.post figure, main.post .carousel, main.post video,
+main.post img, main.post h2, main.post h3 { margin-bottom: var(--space); }
+main.post h2, main.post h3 { margin-top: calc(var(--space) * 1.5); }
+main.post ul, main.post ol { padding-left: 1.5rem; }
+blockquote { border-left: 2px solid var(--ink-faint); padding-left: var(--space);
+             color: var(--ink-soft); }
+pre { font-size: var(--step--1); line-height: 1.5; overflow-x: auto;
+      border: 1px solid var(--ink-faint); padding: var(--space); }
+code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+       font-size: 0.9em; }
+hr { border: none; border-top: 1px solid var(--ink-faint);
+     margin: calc(var(--space) * 2) 0; }
+
+/* --- media --- */
+img, video { max-width: 100%; height: auto; display: block; }
+figcaption { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.25rem; }
+.carousel { display: flex; gap: 0.5rem; overflow-x: auto;
+            scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.carousel > * { flex: 0 0 85%; scroll-snap-align: center; margin-bottom: 0; }
+
+/* --- footer --- */
+footer.site { border-top: 1px solid var(--ink-faint); padding-top: var(--space);
+              margin-top: calc(var(--space) * 2);
+              font-size: var(--step--1); color: var(--ink-soft); }
+footer.site a { color: var(--ink-soft); }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="What does the creator of Kotlin build next? — Marat Yuldashev">
+<title>What does the creator of Kotlin build next? — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← Marat Yuldashev</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-03-14">14/03/2026</time>
+    <h1>What does the creator of Kotlin build next?</h1>
+  </header>
+  <p>Andrey Breslav — who designed Kotlin at JetBrains and watched it become Google's default for Android — started Codespeak (codespeak.dev).</p>
+  <div class="carousel">
+    <img src="codespeak-1.png" alt="Codespeak generating a markdown spec from a TypeScript file">
+    <img src="codespeak-2.png" alt="Editing the Codespeak spec in structured English">
+    <img src="codespeak-3.png" alt="Codespeak build running in the terminal agent">
+  </div>
+  <p>The core idea — code is a noisy low-level representation of our intents. The real source of truth should be stripped of the syntax grease we use to bend over for the compiler. Structured English that captures <em>what</em> the software does and <em>why</em>, compiled into code by LLMs.</p>
+  <p>I gave it a shot on production code.</p>
+  <p>Our app has an error banner. When a user refreshes the page, they see a bright red card with a warning triangle and a "Retry" button. It looks like something catastrophic happened.</p>
+  <p>Three changes:</p>
+  <ol>
+    <li>STOP SHOUTING AT THE USER — muted, calm, "Continue" instead of "Retry"</li>
+    <li>Strip out the error message and anxiety triangle on page reloads</li>
+    <li>Harder: make streaming charts render progressively instead of waiting for complete JSON</li>
+  </ol>
+  <p><code>codespeak takeover</code> — point it at a file (60 lines of TypeScript, 30+ Tailwind classes, Zustand stores) and it generates a markdown spec. It didn't describe <code>rounded-2xl border border-red-200/60 bg-red-50/80</code>. It wrote: "a rounded card with a red color scheme." But preserved every behavioral detail. A language designer's sensibility — essential vs accidental complexity.</p>
+  <p>Edit the spec in English. <code>codespeak build</code>. Burns your Claude Opus API tokens in an ugly nerdy black-and-green terminal agent. Result — working code. The chart streaming involved partial JSON parsing and state management — solved in one paragraph of spec. I'd failed to get this working with a direct LLM prompt before.</p>
+  <p>All three changes are in production now.</p>
+  <p>Codespeak is alpha. Specs import other specs with dependency tracking. <code>codespeak coverage</code> took a project from 84% to 100% test coverage in two iterations. Specs coexist with hand-written code — migrate file by file. Published cases show 6-10x code reduction, all passing existing test suites.</p>
+  <p>Yes it has problems... but that's an alpha.</p>
+  <p>You're probably shouting THE BITTER LESSON: every time we hand-engineer features, end-to-end learning beats us. Edge detectors → learned features. Grammar rules → transformers. Codespeak's specs are agent-crafted intermediate representations — OpenAI and Anthropic will eat them alive.</p>
+  <p>But how do you articulate what you want the agent to do? The optimal representation between intent and code isn't human-readable at all — it's probably quantized vectors. The "spec" becomes a learned embedding you query on demand, generating a view tailored to your skill level and your current problem. A junior and a senior architect see different specs for the same system, both accurate, both useful.</p>
+  <p>Codespeak cannot do that... yet.</p>
+  <p>In the end — I shipped real changes with it.</p>
+  <video src="codespeak-demo.mp4" controls preload="metadata"></video>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>

@@ -1,4 +1,2 @@
 User-agent: *
-Disallow: 
-
-Sitemap: http://maratyv.com/sitemap.xml 
+Disallow:
