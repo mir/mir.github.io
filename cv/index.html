@@ -3,10 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="CV — Marat Yuldashev">
+<meta name="description" content="CV — Marat Yuldashev, PhD, ML/DS, AI Engineering Lead">
 <title>CV — Marat Yuldashev</title>
 <link rel="icon" href="/favicon.png">
 <link rel="stylesheet" href="/style.css">
+<style>
+  .cv-meta { color: var(--ink-soft); font-size: var(--step--1); }
+  .cv-photo { width: 10rem; }
+  .stack { color: var(--ink-soft); font-size: var(--step--1); font-style: italic; }
+</style>
 </head>
 <body>
 <header class="site">
@@ -15,24 +20,40 @@
 <main class="post">
   <header>
     <h1>Marat Yuldashev</h1>
+    <p class="cv-meta">PhD, ML/DS, AI Engineering Lead · Cyprus, open to relocation<br>
+      marat.yv@gmail.com · Telegram <a href="https://t.me/maratyv">@maratyv</a> ·
+      <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
   </header>
 
-  <img src="marat-yuldashev.jpg" alt="Portrait of Marat Yuldashev" width="400">
+  <img class="cv-photo" src="ava.jpg" alt="Portrait of Marat Yuldashev" width="640" height="640">
 
-  <h2>Now</h2>
-  <p>Semrush.</p>
+  <h2>AI Engineering Tech Lead — Semrush (Adobe)</h2>
+  <time datetime="2025-05">May 2025 – present</time>
+  <p>Delivered an AI agentic tool for extracting and analyzing internal data from the BigQuery data warehouse, significantly simplifying data access for designers, frontend engineers, and product managers. The solution ingests data from databases, MCPs, Google Docs, internal portals, Slack messages, dashboards, and more. It is highly customizable through skills and enables automation of a wide range of tasks across the company.</p>
+  <p>Transformed the team (backend engineer, frontend developer, and data engineer) into highly independent full-stack problem solvers, enabling the delivery of multiple features per day through a tightly integrated and automated setup using Claude Code and Cursor.</p>
+  <p class="stack">Python, LangChain, MCP, PG Vector store, Agentic Search, FastAPI, React (TypeScript), Postgres, BigQuery, Redis, REST, GraphQL</p>
 
-  <h2>Education</h2>
-  <ul>
-    <li>First Ph.D. in Mathematics in Russia — Saint Petersburg State University, 2013</li>
-    <li>Ph.D. in Computer Science — University of Jyväskylä, 2013. Sponsored by the scholarship of the President of Russia for studying abroad.</li>
-    <li>Candidate of Science — Saint Petersburg State University, 2013</li>
-    <li>Master of Computer Science — University of Jyväskylä, 2012</li>
-    <li>Specialist degree — Saint Petersburg State University, 2011</li>
-  </ul>
+  <h2>Experimentation / Data Science Team Lead — Semrush (Adobe)</h2>
+  <time datetime="2024-10">Oct 2024 – present</time>
+  <p>Promoted to Product and Technical Lead of the Experimentation Team, managing the A/B testing platform (dbt, PostgreSQL, Python, React). Together with one engineer, completely rewrote the metrics computation pipeline, reducing the failure rate by 7x. Built a highly efficient, high-performing team of three carefully selected full-stack engineers empowered by Cursor and Claude Code, outperforming teams of ten.</p>
+  <p class="stack">BigQuery, Django, PostgreSQL, GraphQL, OpenAI SDK</p>
 
-  <h2>Earlier</h2>
-  <p>Docent, Saint Petersburg State University, Faculty of Mathematics and Mechanics, Department of Applied Cybernetics. Author of publications on nonlinear analysis of phase-locked loops and Costas loop circuits (Signal Processing, IEEE TCAS-II, IFAC), and co-holder of several related patents.</p>
+  <h2>Senior ML Engineer — Semrush (Adobe)</h2>
+  <time datetime="2024-04">Apr 2024 – Oct 2024</time>
+  <p>Joined as a Senior Machine Learning Engineer and rebuilt the user Lifetime Value prediction model and Returned Users predictions using dbt on BigQuery ML, increasing calculation speed by 10x and achieving close to zero failure rate.</p>
+  <p class="stack">BigQuery ML, dbt, SQL, Google Cloud, Airflow</p>
+
+  <h2>Experimentation Lead — Space 307</h2>
+  <time datetime="2023-04">Apr 2023 – Apr 2024</time>
+  <p>Software company that provides a trading platform for a variety of financial instruments (700 employees). Tech lead and manager for the data science team responsible for the experimentation platform. Built from scratch an analytical tool to pull gigabytes of data from the analytical warehouse, run heavy-load calculations, and present the results, speeding up the analysis and reporting process from days to minutes. Implemented robust and powerful statistical tests. Developed the architecture of a new system for splitting users into groups, which was successfully implemented, allowing a large number of tests to run in parallel. As a result, the number of A/B tests grew from 5 per month to 20. Implemented an ongoing team training process and conducted over 50 interviews for analytics teams. Exceptional team = great results.</p>
+
+  <h2>Professor in Applied Math — St. Petersburg State University</h2>
+  <time datetime="2018">2018 – 2020</time>
+  <p>Was one of the youngest professors at the university. h-index 16, 65+ publications, 350+ citations. Supervised 10+ B.Sc. and M.Sc. students, most of them became successful software engineers. Lectures: Machine Learning, Software Engineering, Applied Mathematics, Communication Systems. National grant winner (University of Jyväskylä, Finland). Received one of the three grants of the President of Russia.</p>
+
+  <h2>Lead Software Engineer — loyaltyplant.com</h2>
+  <time datetime="2010">2010 – 2015</time>
+  <p>Designed and helped build the Java backend. Reverse engineered and deployed key systems to secure a major customer (B2B). Led migration to AWS.</p>
 </main>
 <footer class="site">
   <p>maratyv@gmail.com<br>
