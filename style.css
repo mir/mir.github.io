@@ -53,6 +53,7 @@ time { display: block; font-size: var(--step--1); color: var(--ink-soft);
 /* --- main page post list --- */
 main.list article { margin-bottom: calc(var(--space) * 2); }
 main.list article h2 { margin-bottom: 0.75rem; }
+main.list article > p { line-height: 1.4; margin-bottom: 0.75rem; }
 
 /* --- post page prose --- */
 main.post > header { margin-bottom: calc(var(--space) * 1.5); }
@@ -72,10 +73,14 @@ hr { border: none; border-top: 1px solid var(--ink-faint);
 
 /* --- media --- */
 img, video { max-width: 100%; height: auto; display: block; }
+.media-half { width: 50%; margin-inline: auto; }
 figcaption { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.25rem; }
 .carousel { display: flex; align-items: flex-start; gap: 0.5rem; overflow-x: auto;
             scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .carousel > * { flex: 0 0 85%; min-width: 0; scroll-snap-align: center; margin-bottom: 0; }
+.carousel.comics { justify-content: center; }
+.carousel.comics > * { flex-basis: 42.5%; }
+.carousel.comics > a > img { margin-bottom: 0; }
 
 /* --- footer --- */
 footer.site { border-top: 1px solid var(--ink-faint); padding-top: var(--space);

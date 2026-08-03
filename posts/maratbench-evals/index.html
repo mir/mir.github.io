@@ -17,26 +17,43 @@
     <time datetime="2026-08-02">02/08/2026</time>
     <h1>Your AI Agent Needs Benchmarks. But Keep the Vibes.</h1>
   </header>
-  <p>Everyone says "stop vibe-checking your AI agent." They're half right.</p>
-  <p>Vibes built our intuition. But when stakeholders asked "how do you <em>know</em> it's right?" — vibes had no answer.</p>
-  <p>Here's what did.</p>
-  <p>We run an AI data agent at Semrush: you ask a business question, it finds the data and answers with a number. Every week someone improves it — a new skill, a smarter prompt, a cleaner architecture.</p>
-  <p>And here's the trap: every change <em>feels</em> like an improvement. Nobody ships a change that feels worse.</p>
-  <p>But an agent is a system. A new skill can pollute the context for every other question. A "better" prompt can make answers slower and more expensive. You fixed the one question you tested — and silently broke ten you didn't.</p>
-  <p>Vibes can't catch that. But don't throw them away, because vibes and benchmarks do different jobs.</p>
-  <p><strong>Vibes are a microscope.</strong> You watch the calls run one after another. You click, you probe, you see how the agent actually thinks. That's how you build intuition, spot the exact broken step, and form product vision. No benchmark gives you that — a benchmark just hands you a score.</p>
-  <p><strong>Benchmarks are a map.</strong> They tell you whether the system as a whole got better, worse, or just more expensive. They are your regression insurance — and your only honest answer to "how accurate is it?"</p>
-  <p>Benchmarks are your trust. Vibes are your intuition. You need both.</p>
-  <p>Building the benchmark was the hard part. Our first attempt — asking analysts to write evals for their own domains — went nowhere. Writing a good benchmark is a skill in itself, and nobody is born with it.</p>
-  <p>Then came the insight: the ground truth already existed. It was hanging on the wall.</p>
-  <p>Stakeholders answer their questions with dashboards. Every dashboard has survived years of review — its default periods, filters, and metric definitions <em>are</em> the company's agreed answers. So take a dashboard, write down the question a stakeholder would ask it, and the dashboard's value is your expected answer. Use past periods, and the data barely moves — the eval stays valid for years.</p>
-  <p>We extracted 68 real business questions across ~20 domains this way. Every answer verified against a dashboard. Every rubric checks not just the number (±5%) but whether the calculation semantics match — right source, right filters, right date logic.</p>
-  <p>Now when someone asks "how can you trust the agent?", the answer is one sentence:</p>
-  <p><em>We checked it against the dashboards you already trust. Same numbers.</em></p>
-  <p>First benchmark run: only 38% of the questions passed.</p>
-  <p>That hurt. It was also the most useful thing that has happened to the project — because now every change has to prove itself.</p>
-  <p>Next we tested the obvious fix: a smarter model. Spoiler — it barely helped, and the reason surprised us. That's the next post.</p>
-  <p><em>How do you verify your AI agent's answers today — benchmarks, vibes, or hope?</em></p>
+  <div class="carousel comics">
+    <a href="https://xkcd.com/2451/" aria-label="View AI Methodology on xkcd" title="View AI Methodology on xkcd">
+      <img src="/posts/maratbench-evals/ai-methodology.png" alt="Comic about training a classifier on examples of good and bad methodology">
+    </a>
+    <a href="https://xkcd.com/1838/" aria-label="View Machine Learning on xkcd" title="View Machine Learning on xkcd">
+      <img src="/posts/maratbench-evals/machine-learning.png" alt="Comic about stirring a pile of linear algebra until its answers look right">
+    </a>
+  </div>
+  <p>“So it gives me the answer—but is it correct?” That was the first question a VP asked me after a demo of our AI Analytics agent at Semrush. At first, my answer was, “Yeah, check the SQL it generates. You can see it in a couple of clicks.” “Sure, I can verify that because I know which table to query and how to avoid the pitfalls. But what about less technical people?” I didn't know how to answer that.</p>
+
+  <h2>Wrong start</h2>
+  <p>Our first attempt to solve the problem was to ask employees who knew the data well to write skills that the agent could load on demand without polluting the context.</p>
+  <p>If the experts encode their knowledge, correctness takes care of itself. A good data governance strategy would force them to keep those skills good, and the problem would go away, right? Right? RRIGHT?</p>
+  <p>Unfortunately, the opposite happened. Writing a skill is an art in itself.</p>
+  <p>There are several research papers showing that adding a skill may do nothing at best—and, at worst, may confuse the agent and make it dumber.</p>
+  <p>We reached a point where we had more than 200 skills, tables, and internal knowledge pages. Together, they created a slopmold that probably didn't improve the overall accuracy of the answers, just made the ticket closed.</p>
+  <p>But we had no way to measure that “probably.”?</p>
+
+  <h2>On the right path</h2>
+  <p>The way the industry measures agent quality is through evals.</p>
+  <p>A simple eval consists of a task for your agent plus a set of criteria for determining whether it did a good job. When you combine a group of evals, you get a benchmark.</p>
+  <p>So I created around 30 evals based on questions users had asked, and I asked my team to do the same.</p>
+  <p>As it turned out, creating a good eval is hard.</p>
+  <p>Nobody is good at it at first, because evals look like tests but aren't. We treated them like unit tests—something that should pass 100% of the time.</p>
+  <p>But a benchmark is a ladder you climb. A good one exposes weaknesses, then you fix the context, then evals saturate, and then you build a new, harder benchmark.</p>
+  <p>We didn't know that yet. We spent an entire day on a single question, trying to determine the right way to interpret “revenue last quarter” or “signup flow” in that particular context. On top of that, you need good examples of evals—and we didn't have any. So our evals came out so ambiguous that we couldn't trust their own verdicts.</p>
+
+  <h2>Got derailed on vibes</h2>
+  <p>Which left us right back where we started: vibes. Ask a question, examine the sequence of tool calls, inspect the output. After 30 queries, I started to get a feel for what's wrong, then I fixed the problem and ran a few queries again. Vibe-checking was embarrassingly effective—and an ideal way to bus-factor yourself to burnout. At some point the hurdle overwhelmed me and I transitioned to hoping that maybe this time it would just work…</p>
+  <p>Another hope was to evaluate the agent online—the famous thumbs-up and thumbs-down buttons.</p>
+  <p>We had a few hundred users, and only a handful of them ever clicked.</p>
+  <p>And even then, if you're not an expert, how would you know whether the answer is correct? The agent that flatters you gets a thumbs up; the agent that asks “Which cohort are you interested in?”, “Last 30 days or 90 days?” gets a thumbs “FYOU! If I knew, I could do that myself.” Thumbs measure satisfaction and reward sycophancy.</p>
+
+  <h2>Big pause</h2>
+  <p>So: skills don't measure accuracy. Thumbs are garbage. Vibe-checking doesn't scale. And creating evals from users' questions is so hard it probably requires a separate skill set. We even pitched hiring a dedicated eval engineer. That headcount was pushed to the next quarter…</p>
+  <p>But then I discovered a way to create our first benchmark—one that was verifiable, reliable, and built in days, not quarters. The source wasn't users' questions at all. It had been hiding right in front of me the whole time. And you can definitely do it too.</p>
+  <p>In the next post, I'll show you how I did it, what an eval looks like in practice, how to automate it, and what broke along the way.</p>
 </main>
 <footer class="site">
   <p>maratyv@gmail.com<br>

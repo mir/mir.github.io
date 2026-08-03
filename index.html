@@ -11,18 +11,28 @@
 </head>
 <body>
 <header class="site">
-  <h1>Yuldashev Marat</h1>
+  <h1>Marat Yuldashev</h1>
 </header>
 <main class="list">
 
   <article>
     <time datetime="2026-08-02">02/08/2026</time>
     <h2><a href="/posts/maratbench-evals/">Your AI Agent Needs Benchmarks. But Keep the Vibes.</a></h2>
+    <p>“So it gives me the answer—but is it correct?” That was the first question a VP asked me after a demo of our AI Analytics agent at Semrush. At first, my answer was, “Yeah, check the SQL it generates. You can see it in a couple of clicks.” “Sure, I can verify that because I know which table to query and how to avoid the pitfalls. But what about less technical people?” I didn't know how to answer that. <a href="/posts/maratbench-evals/">The 200-skill mistake →</a></p>
+    <div class="carousel comics">
+      <a href="https://xkcd.com/2451/" aria-label="View AI Methodology on xkcd" title="View AI Methodology on xkcd">
+        <img src="/posts/maratbench-evals/ai-methodology.png" alt="Comic about training a classifier on examples of good and bad methodology">
+      </a>
+      <a href="https://xkcd.com/1838/" aria-label="View Machine Learning on xkcd" title="View Machine Learning on xkcd">
+        <img src="/posts/maratbench-evals/machine-learning.png" alt="Comic about stirring a pile of linear algebra until its answers look right">
+      </a>
+    </div>
   </article>
 
   <article>
     <time datetime="2026-03-14">14/03/2026</time>
     <h2><a href="/posts/codespeak/">What does the creator of Kotlin build next?</a></h2>
+    <p>Andrey Breslav — who designed Kotlin at JetBrains and watched it become Google's default for Android — started Codespeak. The core idea: code is a noisy low-level representation of our intents. The real source of truth should be structured English that captures <em>what</em> the software does and <em>why</em>, compiled into code by LLMs. I gave it a shot on production code. <a href="/posts/codespeak/">Did it ship? →</a></p>
     <div class="carousel">
       <img src="/posts/codespeak/codespeak-1.png" alt="Codespeak screenshot 1">
       <img src="/posts/codespeak/codespeak-2.png" alt="Codespeak screenshot 2">
@@ -33,16 +43,20 @@
   <article>
     <time datetime="2026-02-15">15/02/2026</time>
     <h2><a href="/posts/mcp-cli-skills/">From MCP Tax to Self-Verifying Agents: Why CLI + Custom Skills Close the Loop</a></h2>
+    <p>Three minutes into a team demo, my agent forgot what we were building. The issue wasn't the model. Jira via MCP cost ~30K tokens in tool definitions alone—20% of a 150K window, before I typed anything. Agents that ship are agents that verify, and if checking work is expensive, it gets done less. <a href="/posts/mcp-cli-skills/">Make verification cheap →</a></p>
+    <img src="/posts/mcp-cli-skills/mcp-maximalist.png" alt="The MCP Maximalist comic: an agent loads many MCP tools, consumes a million tokens, and leaves the bug broken">
   </article>
 
   <article>
     <time datetime="2026-01-28">28/01/2026</time>
     <h2><a href="/posts/anthropic-take-home/">Can you handle Anthropic engineer assignment?</a></h2>
+    <p>Anthropic open-sourced a performance engineering take-home: a simulated processor with 12 ALU slots, 6 vector slots, and 1536 words of scratch memory. Optimize a tree traversal kernel from its naive baseline. Think PyTorch vs. hand-tuned CUDA, stripped down to fundamentals. One evening got me to 4033 cycles; Claude Opus 4.5 hit ~1,363. <a href="/posts/anthropic-take-home/">What's your limit? →</a></p>
   </article>
 
   <article>
     <time datetime="2026-01-11">11/01/2026</time>
     <h2><a href="/posts/deepseek-mhc/">Stability of Dynamical Systems, Residual Streams, and DeepSeek's mHC</a></h2>
+    <p>Several years ago I was a math professor. My research was stability of dynamical systems: when does a system stay bounded — and when does it blow up, oscillate, or collapse to zero? LLMs have the same failure modes. DeepSeek measured Hyper-Connections amplifying signals by ~3000× — and their fix is beautifully "systems". <a href="/posts/deepseek-mhc/">Constraints as enablers →</a></p>
     <div class="carousel">
       <img src="/posts/deepseek-mhc/hc.png" alt="Hyper-Connections diagram">
       <img src="/posts/deepseek-mhc/res.png" alt="Residual stream diagram">
@@ -52,13 +66,15 @@
   <article>
     <time datetime="2026-01-06">06/01/2026</time>
     <h2><a href="/posts/jira-status-updates/">Asking engineers to manually update Jira status in 2026 is a workflow smell.</a></h2>
-    <img src="/posts/jira-status-updates/jira-mem.jpeg" alt="Jira meme">
+    <p>When you ask an engineer to "update the ticket," you pay for it in focus. It breaks flow, turns real work into status-writing, and trains teams to optimize for appearances instead of outcomes. Manual reporting is the wrong mechanism for visibility — status updates should come from the source of truth: code. <a href="/posts/jira-status-updates/">Monitor reality instead →</a></p>
+    <img class="media-half" src="/posts/jira-status-updates/jira-mem.jpeg" alt="Jira meme">
   </article>
 
   <article>
     <time datetime="2026-01-03">03/01/2026</time>
     <h2><a href="/posts/research-plan-review/">'Please implement this feature' is a vibe-trap.</a></h2>
-    <img src="/posts/research-plan-review/vibe-pyramide.png" alt="The vibe pyramid: formulate, research, plan, implement">
+    <p>When you write "implement X," the AI still does research → planning → coding. You just don't see any of it, and you can't course-correct. Small mistakes in research compound into a half-good, half-bad result. So I split the work into stages I can review — and my understanding of the codebase went up, not down. <a href="/posts/research-plan-review/">The 3-stage workflow →</a></p>
+    <img class="media-half" src="/posts/research-plan-review/vibe-pyramide.png" alt="The vibe pyramid: formulate, research, plan, implement">
   </article>
 
 </main>
