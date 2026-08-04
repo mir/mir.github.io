@@ -68,6 +68,12 @@ pre { font-size: var(--step--1); line-height: 1.5; overflow-x: auto;
       border: 1px solid var(--ink-faint); padding: var(--space); }
 code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
        font-size: 0.9em; }
+table { border-collapse: collapse; width: 100%; margin-bottom: var(--space);
+        font-variant-numeric: tabular-nums; }
+th { font-weight: 700; text-align: left; }
+th, td { padding: 0.4rem 0; }
+th + th, td + td { text-align: right; padding-left: var(--space); }
+thead th { border-bottom: 1px solid var(--ink-faint); }
 hr { border: none; border-top: 1px solid var(--ink-faint);
      margin: calc(var(--space) * 2) 0; }
 

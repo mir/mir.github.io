@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The Smarter Model Wrote Better SQL. It Still Gave the Wrong Answer. — Marat Yuldashev">
+<title>The Smarter Model Wrote Better SQL. It Still Gave the Wrong Answer. — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <nav><a class="back" href="/">← all posts</a></nav>
+</header>
+<main class="post">
+  <header>
+    <!-- TODO: set real publish date (also in <time datetime>) -->
+    <time datetime="2026-08-04">04/08/2026</time>
+    <h1>The Smarter Model Wrote Better SQL. It&nbsp;Still Gave the Wrong Answer.</h1>
+  </header>
+
+  <!-- ============================================================
+       EDITORIAL GATE (delete this comment before publishing):
+       confirm what's safe to publish — real cancellation counts
+       (935/640), MRR figures (~$369K), model codenames
+       (sol/terra/luna, GPT-5.4/5.6), supervisor prompt versions,
+       sub-agent architecture (Explorer/OpenMetadata). Round or
+       relativize anything sensitive; drop prompt versions — they
+       add nothing for external readers.
+       ============================================================ -->
+
+  <!-- ===================== ACT 1: THE MODEL DIAL ================ -->
+
+  <!-- OPENING SCENE — lead with the cancellations failure, before
+       any setup. The agent said 640, up 14%. The dashboard said
+       935, down 9%. Not just the wrong number — the wrong
+       DIRECTION, confidently. Under both models.
+       Then zoom out: why we ran this at all. -->
+  <p><!-- the scene: wrong number, wrong direction --></p>
+
+  <h2><!-- section: the forced experiment --></h2>
+  <!-- Beats:
+       - model generations get deprecated every 6–12 months
+       - the replacement is a matrix: model × reasoning effort
+       - without a benchmark, configuration choice is guesswork
+       - we finally had the benchmark (link post 2) -->
+  <p><!-- --></p>
+  <p><!-- --></p>
+
+  <h2><!-- section: headline result --></h2>
+  <!-- State the caveat IN THE SAME BREATH as the numbers: the
+       supervisor prompt also changed between runs, so this compares
+       two production configurations — the trace-level split below
+       is what carries the argument.
+       TABLE 1 of 3. -->
+  <p><!-- one-sentence setup + the caveat --></p>
+  <table>
+    <thead><tr><th></th><th>GPT&#8209;5.4</th><th>GPT&#8209;5.6</th></tr></thead>
+    <tbody>
+      <tr><td>Average accuracy (of 10)</td><td>5.51</td><td>5.89</td></tr>
+      <tr><td>Questions passed (of 68)</td><td>24</td><td>26</td></tr>
+      <tr><td>Hard-question accuracy</td><td>4.38</td><td>3.83</td></tr>
+      <tr><td>Cost per question</td><td>$0.17</td><td>$0.26</td></tr>
+      <tr><td>Time per question</td><td>57 s</td><td>135 s</td></tr>
+    </tbody>
+  </table>
+  <p><!-- the reading: +0.4 points, +58% cost, 2.4× latency, and
+       hard questions got WORSE — give that its own sentence --></p>
+
+  <h2><!-- section: the failures, concretely --></h2>
+  <!-- Reuse cancellations from post 2 (one line — it's established).
+       Add: content-performing (wrong period, ~two orders of
+       magnitude off) and the churn forecast that answered "I don't
+       have access to the data" for data that exists. -->
+  <p><!-- --></p>
+  <p><!-- --></p>
+
+  <h2><!-- section: mechanics vs. knowledge (THE CENTERPIECE) --></h2>
+  <!-- TABLE 2 of 3 — the whole post in one table. Then interpret:
+       - what the model owns (SQL authoring) improved 5×
+       - what depends on our context (table discovery, dead-zone
+         domains) barely moved or didn't move at all
+       - its genuine wins came from PERSISTENCE, not knowledge —
+         longer sub-agent calls, which is exactly where the +58%
+         cost and 2.4× latency went -->
+  <p><!-- --></p>
+  <table>
+    <thead><tr><th>Capability</th><th>Owner</th><th>GPT&#8209;5.4</th><th>GPT&#8209;5.6</th></tr></thead>
+    <tbody>
+      <tr><td>SQL syntax + column errors</td><td>model</td><td>48</td><td>9</td></tr>
+      <tr><td>Table-not-found errors</td><td>our context</td><td>49</td><td>37</td></tr>
+      <tr><td>Dead-zone domains (~14)</td><td>our context</td><td>~0–2 / 10</td><td>~0–2 / 10</td></tr>
+    </tbody>
+  </table>
+  <p><!-- the interpretation --></p>
+
+  <!-- ===================== ACT 2: THE EFFORT DIAL =============== -->
+
+  <h2><!-- section: the latency mystery --></h2>
+  <!-- The bridge. Beats:
+       - plain supervisor turns stayed ~32–34 s in both runs
+       - ALL the slowdown lived inside sub-agent executions
+       - so: is all that extra reasoning buying anything?
+       - controlled test: same supervisor, same prompt, same three
+         explorer-heavy evals, 3 repeats, ONLY sub-agent effort
+         changed — low vs. xhigh -->
+  <p><!-- --></p>
+  <p><!-- --></p>
+
+  <h2><!-- section: 2.2× slower, same score --></h2>
+  <!-- TABLE 3 of 3. Then: +0.22 is pure noise (the benchmark's own
+       within-eval range is ~2 points). And rule out routing: both
+       arms called the explorer exactly 7 times, nearly identical
+       SQL/schema activity — the SAME path just ran slower. -->
+  <table>
+    <thead><tr><th></th><th>Low</th><th>Xhigh</th></tr></thead>
+    <tbody>
+      <tr><td>Average accuracy (of 10)</td><td>5.22</td><td>5.44</td></tr>
+      <tr><td>Average latency</td><td>202 s</td><td>452 s</td></tr>
+      <tr><td>Average cost</td><td>$0.147</td><td>$0.160</td></tr>
+      <tr><td>Tokens</td><td>309k</td><td>554k</td></tr>
+    </tbody>
+  </table>
+  <p><!-- noise argument + routing rule-out --></p>
+
+  <h2><!-- section: two evals, one moral --></h2>
+  <!-- The contrast pair:
+       - onboarding: the model GENERATION helped (3.7 → 6.7) — but
+         low and xhigh both scored 6.67. Effort added nothing but
+         385 seconds.
+       - bookings: near zero under EVERY configuration, because the
+         business definition is missing or wrong.
+       Punchline: more reasoning cannot invent your business
+       definitions. -->
+  <p><!-- --></p>
+  <p><!-- --></p>
+
+  <!-- ===================== ACT 3: THE CONCLUSION ================ -->
+
+  <h2><!-- section: the context ceiling --></h2>
+  <!-- Beats:
+       - both dials the industry offers are now exhausted
+       - what's left is what WE wrote: skill instructions, table
+         docs, metric definitions
+       - the benchmark's real product: failed evals are a
+         prioritized backlog for the knowledge base
+       - close the loop with post 1: we finally know which of the
+         200+ skills in the slopmold actually matter -->
+  <p><!-- --></p>
+  <p><!-- --></p>
+
+  <h2><!-- section: honest limits --></h2>
+  <!-- Two sentences each, no more:
+       - the prompt confound (already flagged above)
+       - the effort experiment was 3 evals; full-benchmark
+         validation pending -->
+  <p><!-- --></p>
+
+  <!-- CLOSE — operational decision + thesis. Terra supervisor +
+       Luna low; spend the saved latency and money on context.
+       If there's ever a post 4, it's "we fixed the context —
+       here's what happened." -->
+  <p><!-- --></p>
+</main>
+<footer class="site">
+  <p>maratyv@gmail.com<br>
+     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
+     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+</footer>
+</body>
+</html>
