@@ -21,8 +21,12 @@
   <p>LLMs have the same failure modes.<br>
   As you stack layers, signals and gradients can <strong>vanish</strong> (no learning) or <strong>explode</strong> (training gets destroyed).</p>
   <div class="carousel">
-    <img src="hc.png" alt="Diagram of Hyper-Connections: multiple parallel residual streams mixed by a learned matrix at each layer">
-    <img src="res.png" alt="Diagram of a residual connection: identity path plus learned residual correction">
+    <a class="image-link" href="hc.png" aria-label="View Hyper-Connections diagram full size">
+      <img src="hc.png" alt="Diagram of Hyper-Connections: multiple parallel residual streams mixed by a learned matrix at each layer">
+    </a>
+    <a class="image-link" href="res.png" aria-label="View residual connection diagram full size">
+      <img src="res.png" alt="Diagram of a residual connection: identity path plus learned residual correction">
+    </a>
   </div>
   <p>That’s why residual connections were such a breakthrough:</p>
   <pre><code>x ↦ x + F(x)</code></pre>

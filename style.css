@@ -5,7 +5,7 @@
 
    Policies:
    1. One typeface, two weights (regular, bold). Italic allowed for emphasis.
-   2. Titles are the only links in a list entry; underlined, ink-colored.
+   2. Titles are the only text links in a list entry; media may link to its source.
    3. Dates always above titles, always dd/mm/yyyy, always soft gray.
    4. No borders except 1px hairlines between major sections.
    5. Media sits full column width, corners square, no shadows.
@@ -73,6 +73,7 @@ hr { border: none; border-top: 1px solid var(--ink-faint);
 
 /* --- media --- */
 img, video { max-width: 100%; height: auto; display: block; }
+a.image-link { display: block; cursor: zoom-in; }
 .media-half { width: 50%; margin-inline: auto; }
 figcaption { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.25rem; }
 .carousel { display: flex; align-items: flex-start; gap: 0.5rem; overflow-x: auto;
@@ -80,6 +81,7 @@ figcaption { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.25
 .carousel > * { flex: 0 0 85%; min-width: 0; scroll-snap-align: center; margin-bottom: 0; }
 .carousel.comics { justify-content: center; }
 .carousel.comics > * { flex-basis: 42.5%; }
+.carousel > a.image-link > img { width: 100%; margin-bottom: 0; }
 .carousel.comics > a > img { margin-bottom: 0; }
 
 /* --- footer --- */
