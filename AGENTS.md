@@ -11,6 +11,11 @@
 - `cv/index.html` — CV.
 - `style.css` — the only stylesheet. Design tokens and policies are documented at the top of the file.
 
+## Publishing posts (binding)
+
+- Whenever adding a new post, add its canonical `https://maratyv.com/posts/<slug>/` URL to `sitemap.xml` in the same change.
+- Before finishing, verify that every `posts/<slug>/index.html` page is represented in `sitemap.xml`.
+
 ## Local development
 
 - When previewing the site locally, run BrowserSync in a dedicated detached `tmux` session so its output can be watched independently:
