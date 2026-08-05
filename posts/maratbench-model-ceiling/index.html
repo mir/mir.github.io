@@ -14,46 +14,26 @@
 </header>
 <main class="post">
   <header>
-    <!-- TODO: set real publish date (also in <time datetime>) -->
-    <time datetime="2026-08-04">04/08/2026</time>
+    <time datetime="2026-08-05">05/08/2026</time>
     <h1>The Smarter Model Wrote Better SQL. It&nbsp;Still Gave the Wrong Answer.</h1>
   </header>
 
-  <!-- ============================================================
-       EDITORIAL GATE (delete this comment before publishing):
-       confirm what's safe to publish — real cancellation counts
-       (935/640), MRR figures (~$369K), model codenames
-       (sol/terra/luna, GPT-5.4/5.6), supervisor prompt versions,
-       sub-agent architecture (Explorer/OpenMetadata). Round or
-       relativize anything sensitive; drop prompt versions — they
-       add nothing for external readers.
-       ============================================================ -->
+  <p>The <a href="/posts/maratbench-evals/">first post</a> in this series ended with a confession: we had accumulated more than two hundred skills and knowledge pages for our analytics agent without any way to measure whether they helped. The <a href="/posts/maratbench-dashboards/">second</a> described where the measurement finally came from, a benchmark of 68 real business questions with answers verified by hand against our Tableau dashboards. What we did not expect was how quickly that benchmark would be put to work. Almost immediately, OpenAI <a href="https://developers.openai.com/api/docs/deprecations">began retiring</a> the surroundings of the model generation our agent runs on GPT-5.4, older GPT-5 snapshots got a December shutdown date, and every replacement column points at the GPT&#8209;5.6 family. Our model has no API retirement date yet, but the queue is visible, and the question of which new model to bet on stopped being academic.</p>
 
-  <!-- ===================== ACT 1: THE MODEL DIAL ================ -->
+  <p>So we ran the successor through all 68 questions, three times each. It wrote nearly flawless SQL, cutting its own authoring errors five-fold. And yet the answers barely improved, the hard questions actually got worse, and the bill grew by more than half. The rest of this post is about why that is not a contradiction, and what it taught us about where the real ceiling of an enterprise agent lives.</p>
 
-  <!-- OPENING SCENE — lead with the cancellations failure, before
-       any setup. The agent said 640, up 14%. The dashboard said
-       935, down 9%. Not just the wrong number — the wrong
-       DIRECTION, confidently. Under both models.
-       Then zoom out: why we ran this at all. -->
-  <p><!-- the scene: wrong number, wrong direction --></p>
+  <h2>A forced choice, every six months</h2>
 
-  <h2><!-- section: the forced experiment --></h2>
-  <!-- Beats:
-       - model generations get deprecated every 6–12 months
-       - the replacement is a matrix: model × reasoning effort
-       - without a benchmark, configuration choice is guesswork
-       - we finally had the benchmark (link post 2) -->
-  <p><!-- --></p>
-  <p><!-- --></p>
+  <p>OpenAI retires model generations roughly every six to twelve months, which is a defensible policy on their side, since each new generation outperforms the one two steps back on nearly every measurable axis. The replacement, however, is never a single model but a lineup: currently <strong>gpt&#8209;5.6&#8209;sol</strong>, <strong>terra</strong>, and <strong>luna</strong>, ordered from most expensive to cheapest, each configurable with a reasoning effort level from <em>max</em> down to <em>none</em>. Every migration therefore reopens the same question: where in this price, latency, and intelligence matrix is the optimum for our workload, given that testing every cell is far too expensive?</p>
 
-  <h2><!-- section: headline result --></h2>
-  <!-- State the caveat IN THE SAME BREATH as the numbers: the
-       supervisor prompt also changed between runs, so this compares
-       two production configurations — the trace-level split below
-       is what carries the argument.
-       TABLE 1 of 3. -->
-  <p><!-- one-sentence setup + the caveat --></p>
+  <p>A word on why the matrix is OpenAI's at all. We considered the Anthropic lineup and decided against it for now: the pricing sits on the expensive side for an agent that issues hundreds of queries per day, the models have a tendency to degrade in the weeks before a new release, the API and transport differ enough from OpenAI's to make a dual-provider harness costly to maintain, and the models are trained with Claude Code in mind, so a custom harness like ours fights their grain. Open-source models remain the interesting long-term option, promising sovereignty, benchmark stability, and eventually lower cost, and we will likely run that experiment. For today, OpenAI's matrix simply gives us the most surface to tweak.</p>
+
+  <p>The built-in cost is that each generation arrives with new behavioral instincts. GPT&#8209;4.1 wanted exhaustive instruction: details, examples, negative examples, and sometimes the same rule stated twice before it complied. GPT&#8209;5 inverted this, and a single stray sentence in a five-page prompt could derail the whole outcome; ask it to clarify ambiguous questions and it would clarify everything, forever, to the point where the agent produced nothing but polite questions. We will meet exactly this failure again below. So prompts must be retuned for each generation, deliberately, with vibe checks first and benchmarks after. There is a research direction that automates this retuning: optimizers such as <a href="https://github.com/stanfordnlp/dspy">DSPy</a>'s MIPROv2 and the more recent <a href="https://arxiv.org/abs/2507.19457">GEPA</a>, which evolves prompts by reflecting in natural language on execution traces and reports beating both MIPROv2 and reinforcement learning with far fewer rollouts. The prerequisite for any of them is precisely a metric and an eval set, which we now have, but they also demand new infrastructure and a rethink of who owns a skill's text once a machine rewrites it. That is a future post.</p>
+
+  <h2>The experiment</h2>
+
+  <p>We compared two production configurations on the full benchmark: the outgoing GPT&#8209;5.4 stack against GPT&#8209;5.6 (a terra main agent with luna sub-agents at xhigh effort). One honest caveat belongs in the same breath as the numbers: the main agent prompt also changed between the runs, so per-question deltas mix model and prompt effects. The trace-level analysis further down is what actually carries the argument, and it holds under both configurations.</p>
+
   <table>
     <thead><tr><th></th><th>GPT&#8209;5.4</th><th>GPT&#8209;5.6</th></tr></thead>
     <tbody>
@@ -64,26 +44,22 @@
       <tr><td>Time per question</td><td>57 s</td><td>135 s</td></tr>
     </tbody>
   </table>
-  <p><!-- the reading: +0.4 points, +58% cost, 2.4× latency, and
-       hard questions got WORSE — give that its own sentence --></p>
 
-  <h2><!-- section: the failures, concretely --></h2>
-  <!-- Reuse cancellations from post 2 (one line — it's established).
-       Add: content-performing (wrong period, ~two orders of
-       magnitude off) and the churn forecast that answered "I don't
-       have access to the data" for data that exists. -->
-  <p><!-- --></p>
-  <p><!-- --></p>
+  <p>Read plainly: a full generation jump bought four tenths of a point, at 58% higher cost and 2.4 times the latency. And the hard questions, the ones that depend most on our metric definitions and domain nuance, moved in the wrong direction.</p>
 
-  <h2><!-- section: mechanics vs. knowledge (THE CENTERPIECE) --></h2>
-  <!-- TABLE 2 of 3 — the whole post in one table. Then interpret:
-       - what the model owns (SQL authoring) improved 5×
-       - what depends on our context (table discovery, dead-zone
-         domains) barely moved or didn't move at all
-       - its genuine wins came from PERSISTENCE, not knowledge —
-         longer sub-agent calls, which is exactly where the +58%
-         cost and 2.4× latency went -->
-  <p><!-- --></p>
+  <h2>What failure looks like</h2>
+
+  <p><em>Business figures below are obfuscated to preserve confidentiality.</em></p>
+
+  <p>Asked about cancellation requests for June, the agent reported about a thousand with a roughly 15% month-over-month increase, while the dashboard shows closer to two thousand and a decrease of about 10%: wrong number and wrong direction, confidently, under both models. Asked which half of May generated more new MRR, it picked the wrong half and reported single-digit thousands of dollars where the dashboard shows about half a million, an answer off by two orders of magnitude, most likely a filter or units mismatch in how the skill maps the question to the data. And asked for the churn forecast, GPT&#8209;5.4 replied that it does not have access to the data, for data that exists and is documented well enough for a human to find.</p>
+
+  <p>The new model added a failure of its own that readers of the previous section will recognize. On one onboarding question it scored zero in all three repeats because it never answered at all; each time it asked a clarifying question about which user segment we meant, exactly the clarify-forever instinct that GPT&#8209;5 generations are known for and that the prompt had not yet been retuned to contain. Beyond the individual misses, about 14 of our roughly 20 business domains score near zero regardless of model. For those domains the agent is, today, effectively not usable.</p>
+
+  <h2>Mechanics versus knowledge</h2>
+
+  <p>The interesting result is is the split.
+      Sort every failure by who owns the capability involved, the model or our context, and the generation jump stops looking uniform:</p>
+
   <table>
     <thead><tr><th>Capability</th><th>Owner</th><th>GPT&#8209;5.4</th><th>GPT&#8209;5.6</th></tr></thead>
     <tbody>
@@ -92,26 +68,24 @@
       <tr><td>Dead-zone domains (~14)</td><td>our context</td><td>~0–2 / 10</td><td>~0–2 / 10</td></tr>
     </tbody>
   </table>
-  <p><!-- the interpretation --></p>
 
-  <!-- ===================== ACT 2: THE EFFORT DIAL =============== -->
+  <p>Everything the model controls improved dramatically. Everything that depends on what we wrote, table documentation, metric definitions, skill instructions, barely moved or did not move at all. The traces make the split concrete:</p>
 
-  <h2><!-- section: the latency mystery --></h2>
-  <!-- The bridge. Beats:
-       - plain supervisor turns stayed ~32–34 s in both runs
-       - ALL the slowdown lived inside sub-agent executions
-       - so: is all that extra reasoning buying anything?
-       - controlled test: same supervisor, same prompt, same three
-         explorer-heavy evals, 3 repeats, ONLY sub-agent effort
-         changed — low vs. xhigh -->
-  <p><!-- --></p>
-  <p><!-- --></p>
+  <table>
+    <thead><tr><th>SQL failure</th><th>GPT&#8209;5.4</th><th>GPT&#8209;5.6</th></tr></thead>
+    <tbody>
+      <tr><td>Syntax errors</td><td>26</td><td>6</td></tr>
+      <tr><td>Invented columns</td><td>22</td><td>3</td></tr>
+      <tr><td>Table not found</td><td>49</td><td>37</td></tr>
+    </tbody>
+  </table>
 
-  <h2><!-- section: 2.2× slower, same score --></h2>
-  <!-- TABLE 3 of 3. Then: +0.22 is pure noise (the benchmark's own
-       within-eval range is ~2 points). And rule out routing: both
-       arms called the explorer exactly 7 times, nearly identical
-       SQL/schema activity — the SAME path just ran slower. -->
+  <p>First, neither model gives up: GPT&#8209;5.4 recovered 47 of its 63 failed queries on the very next call, and GPT&#8209;5.6 recovered all 11 of 11, usually by reading the real schema before retrying. That persistence is where the extra cost and latency went, since the recovery detours run through sub-agents and repeated lookups. Second, the failures that survived the upgrade moved upstream: GPT&#8209;5.6 makes almost no authoring mistakes, but it still guesses stale table names at the schema-lookup stage, because the correct names live only in our documentation. Third, both models repeatedly fail on a table whose name contains the misspelling <code>defaut</code>, a name that appears in one of our own skills. That is a model faithfully trusting a stale reference we wrote.</p>
+
+  <h2>The second dial: reasoning effort</h2>
+
+  <p>The latency numbers hid a second experiment. Plain main agent turns cost about 33 seconds under both models; the entire slowdown lived inside sub-agent executions, which GPT&#8209;5.6 invoked more often and ran about five times longer per call. Was all that extra reasoning buying anything? We isolated the variable on a release candidate environment: same main agent, same prompt, three explorer-heavy questions, three repeats each, changing only the sub-agent effort level between <em>low</em> and <em>xhigh</em>.</p>
+
   <table>
     <thead><tr><th></th><th>Low</th><th>Xhigh</th></tr></thead>
     <tbody>
@@ -121,46 +95,30 @@
       <tr><td>Tokens</td><td>309k</td><td>554k</td></tr>
     </tbody>
   </table>
-  <p><!-- noise argument + routing rule-out --></p>
 
-  <h2><!-- section: two evals, one moral --></h2>
-  <!-- The contrast pair:
-       - onboarding: the model GENERATION helped (3.7 → 6.7) — but
-         low and xhigh both scored 6.67. Effort added nothing but
-         385 seconds.
-       - bookings: near zero under EVERY configuration, because the
-         business definition is missing or wrong.
-       Punchline: more reasoning cannot invent your business
-       definitions. -->
-  <p><!-- --></p>
-  <p><!-- --></p>
+  <p>The score difference of 0.22 points is well inside the benchmark's own noise floor, since the average spread across three repeats of the same question is about two points. The latency difference is far outside it: xhigh more than doubled the mean, the median, and the wall-clock time of the whole run. Nor is it explained by different behavior, because both arms called the explorer sub-agent exactly seven times with nearly identical SQL and schema activity. The same path simply ran slower.</p>
 
-  <!-- ===================== ACT 3: THE CONCLUSION ================ -->
+  <p>Two questions from this experiment tell the whole story in miniature. On a hard onboarding question, the model generation genuinely helped, lifting the score from 3.7 to 6.7, but low and xhigh effort produced the identical 6.7 while xhigh added 385 seconds per run. And a bookings question stayed near zero under every configuration we tried, because the business definition it needs is missing or wrong in our context. More reasoning cannot invent your business definitions.</p>
 
-  <h2><!-- section: the context ceiling --></h2>
-  <!-- Beats:
-       - both dials the industry offers are now exhausted
-       - what's left is what WE wrote: skill instructions, table
-         docs, metric definitions
-       - the benchmark's real product: failed evals are a
-         prioritized backlog for the knowledge base
-       - close the loop with post 1: we finally know which of the
-         200+ skills in the slopmold actually matter -->
-  <p><!-- --></p>
-  <p><!-- --></p>
+  <h2>What is effort for, then?</h2>
 
-  <h2><!-- section: honest limits --></h2>
-  <!-- Two sentences each, no more:
-       - the prompt confound (already flagged above)
-       - the effort experiment was 3 evals; full-benchmark
-         validation pending -->
-  <p><!-- --></p>
+  <p>Our result matches what the industry is measuring. <a href="https://artificialanalysis.ai/articles/gpt-5-benchmarks-and-analysis">Artificial Analysis</a> found a 23-fold difference in token usage between GPT&#8209;5's highest and lowest effort settings, which makes effort effectively a second model dial, and cross-model benchmarks consistently find that the payoff is task-shaped: high effort earns its cost on verifiable math-style problems, while agentic and code work plateaus at medium and sometimes regresses at high effort through overthinking. The most underrated cost is time to first token, which inflates by an order of magnitude or more at high effort and makes the interface feel dead regardless of answer quality.</p>
 
-  <!-- CLOSE — operational decision + thesis. Terra supervisor +
-       Luna low; spend the saved latency and money on context.
-       If there's ever a post 4, it's "we fixed the context —
-       here's what happened." -->
-  <p><!-- --></p>
+  <p>That suggests a simple heuristic we now apply. For interactive work, the currency is time to first token, so a smarter model at low effort tends to beat a smaller model at xhigh for similar money, and the smaller model's genuinely fast first token is exactly what keeps a chat interface feeling alive on easy tasks. Small models at high effort do have a niche in background jobs where nobody is watching the spinner, but that combination should be evaled before it is adopted, or at least fenced with turn and context limits. One related observation from our traces: a model that knows its context budget tends to answer faster and manage its own context accordingly, so telling it the limit is itself a cheap optimization.</p>
+
+  <h2>The other reading</h2>
+
+  <p>There is a fair objection to the framing above, and it deserves its own section: perhaps enterprise data is simply messy, and the bar for a useful agent sits higher than doing exactly what it is asked. A good human analyst wades through a ton of misleading tables and stale names, makes the best available assumptions on your behalf, solves the problem underneath your question, and hints at the alternatives, leaving you free to accept a rough estimate or spend your time diving deeper. Measured against that bar, even GPT&#8209;5.6 is not there yet. We cannot pour our data into it and get judgment out.</p>
+
+  <p>Both readings end at the same place, though. Whether you call it curating context or compensating for a model that is not yet an analyst, the work is ours: write correct definitions, fix the stale references, choose the effort level deliberately, and steer the behavior case by case.</p>
+
+  <h2>The decision</h2>
+
+  <p>We are moving to the terra main agent with luna sub-agents at low effort, and we are spending the latency and money that xhigh would have burned on the knowledge base instead. The benchmark's real product turned out to be the backlog: 42 failing questions, grouped into 14 dead domains, each pointing at a specific skill, table document, or metric definition that needs fixing. After two hundred skills written on faith, we finally know which ones matter.</p>
+
+  <p>The honest limits: the production comparison carries a prompt confound, since the main agent prompt changed alongside the model, and the effort experiment covered three questions, so Luna low still needs validation across all 68 before rollout. Both are scheduled.</p>
+
+  <p>So whats next? We fix the context and rerun the benchmark, which is the experiment this whole series has been building toward. Somewhere after that come the automated prompt optimizers, now that we own the eval set they require, and eventually the open-source arm, for the day we want the benchmark to stop moving under our feet.</p>
 </main>
 <footer class="site">
   <p>maratyv@gmail.com<br>
