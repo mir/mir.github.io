@@ -5,7 +5,7 @@
 
    Policies:
    1. One typeface, two weights (regular, bold). Italic allowed for emphasis.
-   2. Titles are the only text links in a list entry; media may link to its source.
+   2. Titles are the only prose links in a list entry; media may include a source caption.
    3. Dates always above titles, always dd/mm/yyyy, always soft gray.
    4. No borders except 1px hairlines between major sections.
    5. Media sits full column width, corners square, no shadows.
@@ -40,7 +40,21 @@ h2 { font-size: var(--step-1); font-weight: 700; }
 h3 { font-size: var(--step-0); font-weight: 700; }
 
 header.site { margin-bottom: calc(var(--space) * 2); }
+.site-identity { display: flex; justify-content: space-between; align-items: flex-start;
+                 gap: var(--space); }
+.site-name { flex: 0 0 auto; font-size: var(--step-2); font-weight: 700;
+             line-height: 1.2; letter-spacing: -0.01em; text-decoration: none; }
+.site-contact { font-size: var(--step--1); line-height: 1.5; text-align: right;
+                color: var(--ink-soft); }
+.site-contact a { color: var(--ink-soft); }
+.site-contact p + p { margin-top: 0.15rem; }
+header.site > nav { margin-top: var(--space); }
 a.back { color: var(--ink-soft); font-size: var(--step--1); }
+
+@media (max-width: 36rem) {
+  .site-identity { display: block; }
+  .site-contact { margin-top: calc(var(--space) * 0.5); text-align: left; }
+}
 
 a { color: var(--ink); text-decoration: underline;
     text-decoration-thickness: 1px; text-underline-offset: 3px;
@@ -82,13 +96,15 @@ img, video { max-width: 100%; height: auto; display: block; }
 a.image-link { display: block; cursor: zoom-in; }
 .media-half { width: 50%; margin-inline: auto; }
 figcaption { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.25rem; }
+.xkcd img { margin-bottom: 0; }
+.xkcd figcaption a { color: var(--ink-soft); }
 .carousel { display: flex; align-items: flex-start; gap: 0.5rem; overflow-x: auto;
             scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .carousel > * { flex: 0 0 85%; min-width: 0; scroll-snap-align: center; margin-bottom: 0; }
 .carousel.comics { justify-content: center; }
 .carousel.comics > * { flex-basis: 42.5%; }
 .carousel > a.image-link > img { width: 100%; margin-bottom: 0; }
-.carousel.comics > a > img { margin-bottom: 0; }
+.carousel.comics .xkcd-image > img { width: 100%; }
 
 /* --- footer --- */
 footer.site { border-top: 1px solid var(--ink-faint); padding-top: var(--space);

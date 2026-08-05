@@ -10,6 +10,14 @@
 </head>
 <body>
 <header class="site">
+  <div class="site-identity">
+    <a class="site-name" href="/">Marat Yuldashev</a>
+    <nav class="site-contact" aria-label="Contact links">
+      <p><a href="mailto:maratyv@gmail.com">maratyv@gmail.com</a> · <a href="/cv/">cv</a></p>
+      <p>telegram: <a href="https://t.me/maratyv">@maratyv</a></p>
+      <p><a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+    </nav>
+  </div>
   <nav><a class="back" href="/">← all posts</a></nav>
 </header>
 <main class="post">
@@ -18,9 +26,12 @@
     <h1>The Smarter Model Wrote Better SQL. It&nbsp;Still Gave the Wrong Answer.</h1>
   </header>
 
-  <a href="https://xkcd.com/833/" aria-label="View Convincing on xkcd" title="View Convincing on xkcd">
-    <img src="/posts/maratbench-model-ceiling/convincing.png" alt="xkcd comic about using an unlabeled downward graph to make a relationship look doomed">
-  </a>
+  <figure class="xkcd">
+    <a class="xkcd-image" href="https://xkcd.com/833/" aria-label="View Convincing on xkcd" title="View Convincing on xkcd">
+      <img src="/posts/maratbench-model-ceiling/convincing.png" alt="xkcd comic about using an unlabeled downward graph to make a relationship look doomed">
+    </a>
+    <figcaption><a href="https://xkcd.com/833/">Convincing on xkcd</a></figcaption>
+  </figure>
 
   <p>The <a href="/posts/maratbench-evals/">first post</a> in this series ended with a confession: we had accumulated more than two hundred skills and knowledge pages for our analytics agent without any way to measure whether they helped. The <a href="/posts/maratbench-dashboards/">second</a> described where the measurement finally came from, a benchmark of 68 real business questions with answers verified by hand against our Tableau dashboards. What we did not expect was how quickly that benchmark would be put to work. Almost immediately, OpenAI <a href="https://developers.openai.com/api/docs/deprecations">began retiring</a> the surroundings of the model generation our agent runs on GPT-5.4, older GPT-5 snapshots got a December shutdown date, and every replacement column points at the GPT&#8209;5.6 family. Our model has no API retirement date yet, but the queue is visible, and the question of which new model to bet on stopped being academic.</p>
 
@@ -124,10 +135,5 @@
 
   <p>So whats next? We fix the context and rerun the benchmark, which is the experiment this whole series has been building toward. Somewhere after that come the automated prompt optimizers, now that we own the eval set they require, and eventually the open-source arm, for the day we want the benchmark to stop moving under our feet.</p>
 </main>
-<footer class="site">
-  <p>maratyv@gmail.com<br>
-     telegram: <a href="https://t.me/maratyv">@maratyv</a><br>
-     <a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
-</footer>
 </body>
 </html>
