@@ -23,6 +23,18 @@
 <main class="list">
 
   <article>
+    <time datetime="2026-08-09">09/08/2026</time>
+    <h2><a href="/posts/maratbench-explorer-removal/">Agents orchestration and Subagents turned out to be a bad idea for us.</a></h2>
+    <p>Our explorer sub-agent correlated with slower, worse answers, so removing it looked like a free win. The correlation was measuring hard questions, and the intervention moved the same work through a route that cost ten times more. Seven runs later, the final architecture was 22% faster, 68% cheaper, and more accurate but not because one bad component had been deleted. <a href="/posts/maratbench-explorer-removal/">Where the work moved →</a></p>
+    <figure class="xkcd">
+      <a class="xkcd-image" href="https://xkcd.com/552/" aria-label="View Correlation on xkcd" title="View Correlation on xkcd">
+        <img src="/posts/maratbench-explorer-removal/correlation.png" alt="xkcd comic about learning that correlation does not imply causation">
+      </a>
+      <figcaption><a href="https://xkcd.com/552/">Correlation on xkcd</a></figcaption>
+    </figure>
+  </article>
+
+  <article>
     <time datetime="2026-08-05">05/08/2026</time>
     <h2><a href="/posts/maratbench-model-ceiling/">The Smarter Model Wrote Better SQL. It Still Gave the Wrong Answer.</a></h2>
     <p>OpenAI began retiring the model generation our agent runs on, so the benchmark from the previous posts got its first real job. The successor cut its own SQL errors five-fold, yet the answers barely improved and the hard questions got worse. Sorting every failure by who owns the capability, the model or our context, explains why. <a href="/posts/maratbench-model-ceiling/">Where the ceiling lives →</a></p>

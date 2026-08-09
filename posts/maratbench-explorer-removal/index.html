@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="We Removed the Slow Agent. The Bill Tripled. — Marat Yuldashev">
+<title>We Removed the Slow Agent. The Bill Tripled. — Marat Yuldashev</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="site-identity">
+    <a class="site-name" href="/">Marat Yuldashev</a>
+    <nav class="site-contact" aria-label="Contact links">
+      <p><a href="mailto:maratyv@gmail.com">maratyv@gmail.com</a> · <a href="/cv/">cv</a></p>
+      <p>telegram: <a href="https://t.me/maratyv">@maratyv</a></p>
+      <p><a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+    </nav>
+  </div>
+  <nav aria-label="Post navigation"><a class="back" href="/">← all posts</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-08-09">09/08/2026</time>
+    <h1>Agents orchestration and Subagents turned out to be a bad idea for us.</h1>
+  </header>
+
+  <figure class="xkcd">
+    <a class="xkcd-image" href="https://xkcd.com/552/" aria-label="View Correlation on xkcd" title="View Correlation on xkcd">
+      <img src="/posts/maratbench-explorer-removal/correlation.png" alt="xkcd comic about learning that correlation does not imply causation">
+    </a>
+    <figcaption><a href="https://xkcd.com/552/">Correlation on xkcd</a></figcaption>
+  </figure>
+
+  <p>The <a href="/posts/maratbench-model-ceiling/">previous post</a> ended with a conclusion to move our analytics agent to GPT&#8209;5.6 and lower the reasoning effort of its sub-agents.
+      While validating that decision across all 68 questions in maratbench1 I saw an easy win.</p>
+
+  <p>We have an explorer sub-agent that the supervisor can call, which has all the tools main agent has. It searches BigQuery, Confluence, and OpenMetadata, then returns what it finds. Across 680 historical executions, answers that used it scored 4.35 out of 10 and took 138 seconds. Answers that did not use it scored 6.36 and took 33 seconds. The explorer fired on 38.5% of executions, so removing it appeared to offer the rarest kind of optimization: faster, cheaper, and more accurate.</p>
+
+  <h2>The suspiciously obvious bottleneck</h2>
+
+  <table>
+    <thead><tr><th></th><th>No explorer</th><th>Explorer used</th></tr></thead>
+    <tbody>
+      <tr><td>Executions</td><td>418</td><td>262</td></tr>
+      <tr><td>Average accuracy</td><td>6.36</td><td>4.35</td></tr>
+      <tr><td>Median time</td><td>33 s</td><td>138 s</td></tr>
+      <tr><td>Average cost</td><td>$0.186</td><td>$0.424</td></tr>
+    </tbody>
+  </table>
+
+  <p>But the journey just began :) The supervisor calls explorer on questions that already look difficult, since evals that never trigger it average 7.03; those that always trigger it average 3.54. We were mostly measuring which questions were hard, not what the explorer did to them.</p>
+
+  <p>In 23% of eval-and-run combinations, the same question triggered the explorer on some repeats and not on others. That variation let us make a better comparison: match each eval against itself, under the same supervisor and in the same benchmark run.</p>
+
+  <table>
+    <thead><tr><th>Explorer effect</th><th>Change</th><th>95% CI</th></tr></thead>
+    <tbody>
+      <tr><td>Accuracy</td><td>+0.43</td><td>−0.39 to +1.32</td></tr>
+      <tr><td>Wall time</td><td>+93 s</td><td>+66 to +122 s</td></tr>
+      <tr><td>Cost</td><td>−$0.24</td><td>−$0.74 to +$0.20</td></tr>
+    </tbody>
+  </table>
+
+<p>This is not a randomized experiment, so take it with a grain of salt. But it removes the largest confound, question difficulty, and it reverses the original accuracy story: we had no evidence that the explorer was poisoning answers. The latency result was much clearer: 43 of 46 matched comparisons were slower. So, replacing it still sounds like a good idea, right? </p>
+
+  <h2>The need survived the tool</h2>
+
+  <p>We first disabled the explorer on ten explorer-heavy evals without changing anything else. But if the agent wants to explore then it will do that, just using the other tools he has. It rerouted from <code>ask_explorer</code> to <code>ask_open_metadata</code> and Confluence, tools that were running a much more expensive model configuration.</p>
+
+  <table>
+    <thead><tr><th></th><th>Baseline (6 runs)</th><th>Explorer off (1 run)</th></tr></thead>
+    <tbody>
+      <tr><td>Average accuracy</td><td>5.95</td><td>5.90</td></tr>
+      <tr><td>Average time</td><td>93 s</td><td>73 s</td></tr>
+      <tr><td>Average cost</td><td>$0.458</td><td>$1.530</td></tr>
+      <tr><td>OpenMetadata / Confluence used</td><td>32%</td><td>70%</td></tr>
+    </tbody>
+  </table>
+
+  <p>So going from $0.11 per explorer run we got to $1-2. Doesn't sound like a easy win, right? That is compatible with the matched estimate above, where total execution cost fell when the explorer was used: the alternatives it displaced could cost more than the call itself. The component that looked expensive in aggregate was actually the cheapest information-gathering path available.</p>
+
+  <p>The worst execution exposed what was happening inside the new route: one OpenMetadata call consumed 7.75 million tokens and cost $7.23; the execution still scored zero. Our supervisor trace showed fewer calls than the baseline, so nothing at that level explained the bill.</p>
+
+  <h2>The route includes the model</h2>
+
+  <p>It was a bug - OpenMetadata was running GPT&#8209;5.6 Terra at high effort. Moving it to Luna at low effort reduced that segment from 1.2 million to 397 thousand tokens per execution and from $1.08 to $0.238. Now we are getting somewhere.</p>
+
+  <p>“Which agent?” and “which model?” were not separate architecture questions after all. <a href="https://arxiv.org/abs/2605.05007">Uno-Orchestra</a> frames routing in the same order our incident forced on us: first decide whether to delegate, then jointly choose the worker and model under a cost constraint. We had removed one worker while leaving its substitutes on a radically different model configuration. That changed the economics more than removing the component itself.</p>
+
+  <p>With cost neutralized, we could compare the information paths on more equal terms. In these rerouting runs, OpenMetadata and Confluence added about 31 seconds over an execution without sub-agents. The explorer added 119 seconds, compared with 93 seconds in the broader matched analysis, while making fewer observable tool calls. Its long internal loop was a detour, not a unique capability.</p>
+
+  <h2>Disaster detector</h2>
+
+  <p>The ten-question arm compared one explorer-off execution per eval with six prior baseline executions. It gave us a strong cost alarm and an almost meaningless accuracy result. Across the benchmark, the within-eval standard deviation is 2.87 points. Half of the evals are effectively coin flips: the same question can score 0, 1, 8, 10, 10, 10 across repeats. Twice that standard deviation, roughly 5.7 points, gives a sense of how large the noise is at the level of one execution; it is not a universal significance threshold.</p>
+
+  <p>In the ten-question arm, nine results landed inside their eval's historical range. The apparent breakthroughs and regressions were therefore inconclusive: one new trial compared with the average of six noisy ones. The small arm was good at catching a tripled bill. It could not prove a one-point accuracy gain.</p>
+
+  <p>This is a general property of agent evals, not a defect unique to ours. As <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic's guide to agent evals</a> emphasizes, each attempt is a stochastic trial. Repeats can tell you whether an agent ever succeeds or whether it succeeds reliably, but they do not make a small comparison powerful enough by themselves. Three repeats are enough to maintain our benchmark; they are not always enough to settle a close architecture decision on a narrow slice.</p>
+
+  <p>That is why getting to the final conclusion took seven experimental runs. The small ones found failure modes. To measure the architecture, we had to return to all 68 questions, three repeats each.</p>
+
+  <h2>Fixed it</h2>
+
+  <p>The explorer had broad tools, a fresh context, and permission to keep looking. Its real architectural benefit was context isolation: it could do noisy research without filling the supervisor's context, then return a summary. What it did not have was unique expertise. Once the same evidence was reachable through direct tools and bounded specialists, the long delegated loop had little left to justify its cost.</p>
+
+  <p>Research on sub-agents makes the same boundary visible from both sides. <a href="https://arxiv.org/abs/2606.09730">SearchSwarm</a> found that simply exposing a sub-agent tool helped broad information-seeking only a little; a complete harness with explicit decomposition, worker briefs, citations, and supervisor verification helped much more. Meanwhile, an <a href="https://arxiv.org/abs/2604.02460">equal-token comparison</a> on multi-hop reasoning found that single agents matched or beat multi-agent variants once both received the same thinking budget. Neither study settles enterprise analytics. Together they suggest a useful burden of proof: delegation should earn its extra boundary through unique capability, useful isolation, or parallel work, and it should beat direct access at a comparable budget.</p>
+
+  <p>Our explorer had the wrong shape for that advantage. It performed one long serial search while the supervisor waited. So the final configuration changed the whole route: disable the explorer, expose the dbt repository directly to the supervisor so it could inspect transformation logic without delegation, and move the remaining sub-agents to cheaper models.</p>
+
+  <table>
+    <thead><tr><th></th><th>Baseline</th><th>Final</th></tr></thead>
+    <tbody>
+      <tr><td>Average accuracy</td><td>5.45</td><td>5.97</td></tr>
+      <tr><td>Questions passed (of 68)</td><td>20</td><td>28</td></tr>
+      <tr><td>Average time</td><td>58 s</td><td>45 s</td></tr>
+      <tr><td>Average cost</td><td>$0.443</td><td>$0.141</td></tr>
+      <tr><td>Failed BigQuery queries</td><td>8.7%</td><td>4.7%</td></tr>
+      <tr><td>Total benchmark cost</td><td>$90.41</td><td>$28.67</td></tr>
+    </tbody>
+  </table>
+
+  <p>Accuracy rose by 0.51 points, with a 95% confidence interval from +0.12 to +0.93. Latency fell 22%, cost fell 68%, and eight more questions passed. Most importantly, the 22 evals that had historically used the explorer at least 70% of the time improved by 0.64 points and became 32 seconds faster. If we had removed a unique capability, this was where the damage should have appeared. It did not.</p>
+
+  <p>The attribution caveat matters. Explorer removal, direct dbt access, and model reassignment changed together between the baseline and final full runs. The package is clearly good enough to ship, but the +0.51 accuracy gain cannot honestly be credited to any single part. The dbt tool appeared in only 12 of 204 executions, so even its contribution remains weakly evidenced.</p>
+
+  <h2>Wrong mechanism, right decision</h2>
+
+  <p>The original hypothesis was right about the decision and wrong about the mechanism. The explorer was not poisoning answers; it was a slow path through information the supervisor could obtain more directly. The component that tripled the bill was not the explorer either, but the model behind the route that replaced it. The eventual win came from redesigning the substitutes, not merely deleting one box.</p>
+
+  <p>And the ceiling from the previous post is still there. Hard-question accuracy moved from 4.29 to 4.10. The same dead domains still need correct metric definitions, table documentation, and skills. We optimized the delivery path, not the knowledge.</p>
+
+  <p><a href="https://arxiv.org/abs/2606.08275">Causal Agent Replay</a> formalizes the distinction we stumbled into: observability tells you what happened, while causal attribution requires changing a step and replaying the stochastic downstream trajectory enough times to estimate an outcome distribution. That is a stricter standard than our coarse architectural intervention, and the right direction for the next experiment.</p>
+
+  <p>That is the practical lesson I am taking from the experiment: in an agent system, components are substitutes, not isolated boxes. Removing one route changes traffic everywhere else. Correlation can identify where to investigate, but only intervention reveals where the work goes next. And if sub-agent internals are missing from your traces, the thing you most need to optimize may be the thing your dashboard cannot show you.</p>
+
+  <h2>References</h2>
+
+  <ul>
+    <li>Boqin Yuan et al., “<a href="https://arxiv.org/abs/2604.23853">ClawTrace: Cost-Aware Tracing for LLM Agent Skill Distillation</a>” (2026).</li>
+    <li>Zhiqing Cui et al., “<a href="https://arxiv.org/abs/2605.05007">Uno-Orchestra: Parsimonious Agent Routing via Selective Delegation</a>” (2026).</li>
+    <li>Anthropic, “<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>” (2026).</li>
+    <li>Dat Tran and Douwe Kiela, “<a href="https://arxiv.org/abs/2604.02460">Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets</a>” (2026).</li>
+    <li>Pu Ning et al., “<a href="https://arxiv.org/abs/2606.09730">SearchSwarm: Towards Delegation Intelligence in Agentic LLMs for Long-Horizon Deep Research</a>” (2026).</li>
+    <li>Jaineet Shah, “<a href="https://arxiv.org/abs/2606.08275">Causal Agent Replay: Counterfactual Attribution for LLM-Agent Failures</a>” (2026).</li>
+  </ul>
+</main>
+</body>
+</html>
