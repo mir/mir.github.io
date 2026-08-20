@@ -24,9 +24,46 @@
 
   <article>
     <time datetime="2026-08-20">20/08/2026</time>
-    <h2><a href="/posts/maratbench-agent-benchmarks/">Nine Agent Benchmarks, Nine Definitions of Correct</a></h2>
-    <p>Our private benchmark had started changing engineering decisions, which made optimizing against it tempting—and dangerous. I reviewed nine agent benchmarks to see what they actually grade: artifacts, declared outputs replayed in clean verifiers, dual binaries, hidden tests, expected insights, query results, assertions, self-judgments, and causal trajectories. The evaluator, not the prompt, turned out to be the real benchmark.</p>
-    <img src="/posts/maratbench-agent-benchmarks/evidence.svg" alt="Diagram showing the evidence an agent can leave for a benchmark grader">
+    <h2><a href="/posts/maratbench-agent-benchmarks/">How Leading Companies Do Their Benchmarks</a></h2>
+    <p>Our private benchmark had started changing engineering decisions, which made optimizing against it tempting—and dangerous. I reviewed nine agent benchmarks to see what they actually grade: artifacts, declared outputs replayed in clean verifiers, dual binaries, hidden tests, expected insights, query results, assertions, self-judgments, and causal trajectories. The evaluator, not the prompt, turned out to be the real benchmark. <a href="/posts/maratbench-agent-benchmarks/">Nine definitions of correct →</a></p>
+    <div class="carousel" role="region" aria-label="Six benchmark evaluation diagrams" tabindex="0">
+      <figure>
+        <a class="image-link" href="/posts/maratbench-agent-benchmarks/ale.svg" aria-label="View the Agents' Last Exam evaluation diagram full size">
+          <img src="/posts/maratbench-agent-benchmarks/ale.svg" alt="Agents' Last Exam diagram: a professional workflow prompt leads to artifact grading after the agent stops">
+        </a>
+        <figcaption>Agents’ Last Exam: the task can request a workflow that the artifact grader never inspects.</figcaption>
+      </figure>
+      <figure>
+        <a class="image-link" href="/posts/maratbench-agent-benchmarks/terminalbench.svg" aria-label="View the Terminal-Bench evaluation diagram full size">
+          <img src="/posts/maratbench-agent-benchmarks/terminalbench.svg" alt="Terminal-Bench diagram: Harbor collects the declared artifacts from the agent environment and replays them in a separately built verifier container">
+        </a>
+        <figcaption>Terminal-Bench: only the declared artifacts cross into a clean verifier.</figcaption>
+      </figure>
+      <figure>
+        <a class="image-link" href="/posts/maratbench-agent-benchmarks/cybergym.svg" aria-label="View the CyberGym evaluation diagram full size">
+          <img src="/posts/maratbench-agent-benchmarks/cybergym.svg" alt="CyberGym diagram: the same proof of concept crashes the vulnerable build but not the patched build">
+        </a>
+        <figcaption>CyberGym: the patch creates an executable counterfactual.</figcaption>
+      </figure>
+      <figure>
+        <a class="image-link" href="/posts/maratbench-agent-benchmarks/exploitgym.svg" aria-label="View the ExploitGym evaluation diagram full size">
+          <img src="/posts/maratbench-agent-benchmarks/exploitgym.svg" alt="ExploitGym diagram: exact flag capture and causal vulnerability attribution form two success gates">
+        </a>
+        <figcaption>ExploitGym: both the outcome and the method must be correct.</figcaption>
+      </figure>
+      <figure>
+        <a class="image-link" href="/posts/maratbench-agent-benchmarks/deepswe.svg" aria-label="View the DeepSWE evaluation diagram full size">
+          <img src="/posts/maratbench-agent-benchmarks/deepswe.svg" alt="DeepSWE diagram: only a committed diff crosses into a clean verifier with hidden feature and regression tests">
+        </a>
+        <figcaption>DeepSWE: the workspace disappears; the committed behavior is scored.</figcaption>
+      </figure>
+      <figure>
+        <a class="image-link" href="/posts/maratbench-agent-benchmarks/insightbench.svg" aria-label="View the InsightBench evaluation diagram full size">
+          <img src="/posts/maratbench-agent-benchmarks/insightbench.svg" alt="InsightBench diagram: every reference insight independently selects its best predicted match">
+        </a>
+        <figcaption>InsightBench: expected-insight recall is easier to measure than complete analytical truth.</figcaption>
+      </figure>
+    </div>
   </article>
 
   <article>
