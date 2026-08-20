@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">What does the grader actually see?</title>
+  <desc id="desc">A task enters an agent run, which leaves four kinds of evidence: a final answer, files and state, executed behavior, and a trajectory. A benchmark chooses a subset of that evidence for its grader, which produces a score.</desc>
+  <defs>
+    <style>
+      .paper{fill:#fff}.ink{fill:#1a1a1a}.soft{fill:#6b6b6b}.rule{stroke:#d4d4d4;stroke-width:2}.line{stroke:#6b6b6b;stroke-width:3;fill:none;stroke-linecap:square;stroke-linejoin:miter}.box{stroke:#d4d4d4;stroke-width:2;fill:none}.dash{stroke:#6b6b6b;stroke-width:2;stroke-dasharray:10 9;fill:none}.solid{fill:#1a1a1a}.inverse{fill:#fff}.arrowhead{fill:#6b6b6b}text{font-family:Charter,'Iowan Old Style',Georgia,'Times New Roman',serif}.heading{font-size:40px;font-weight:700}.label{font-size:24px;font-weight:700}.body{font-size:25px}.small{font-size:21px}.flow{marker-end:url(#arrow)}
+      @media(prefers-color-scheme:dark){.paper{fill:#141414}.ink{fill:#e8e8e8}.soft{fill:#909090}.rule,.box{stroke:#333}.line,.dash{stroke:#909090}.solid{fill:#e8e8e8}.inverse{fill:#141414}.arrowhead{fill:#909090}}
+    </style>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path class="arrowhead" d="M0 0 9 4.5 0 9Z"/></marker>
+  </defs>
+
+  <rect class="paper" width="1200" height="630"/>
+  <text class="ink heading" x="60" y="72">What does the grader actually see?</text>
+  <line class="rule" x1="60" y1="102" x2="1140" y2="102"/>
+
+  <rect class="box" x="60" y="270" width="130" height="90"/>
+  <text class="ink label" x="125" y="325" text-anchor="middle">Task</text>
+  <line class="line flow" x1="190" y1="315" x2="245" y2="315"/>
+
+  <rect class="box" x="255" y="255" width="175" height="120"/>
+  <text class="ink label" x="342.5" y="307" text-anchor="middle">Agent</text>
+  <text class="soft body" x="342.5" y="342" text-anchor="middle">run</text>
+  <line class="line flow" x1="430" y1="315" x2="485" y2="315"/>
+
+  <rect class="dash" x="500" y="150" width="330" height="330"/>
+  <text class="soft small" x="530" y="188">Evidence left by the run</text>
+  <text class="ink body" x="540" y="245">Final answer</text>
+  <line class="rule" x1="540" y1="265" x2="790" y2="265"/>
+  <text class="ink body" x="540" y="315">Files and state</text>
+  <line class="rule" x1="540" y1="335" x2="790" y2="335"/>
+  <text class="ink body" x="540" y="385">Executed behavior</text>
+  <line class="rule" x1="540" y1="405" x2="790" y2="405"/>
+  <text class="ink body" x="540" y="455">Trajectory</text>
+
+  <text class="soft small" x="865" y="275" text-anchor="middle">chosen subset</text>
+  <line class="line flow" x1="830" y1="315" x2="895" y2="315"/>
+  <rect class="box" x="905" y="270" width="145" height="90"/>
+  <text class="ink label" x="977.5" y="325" text-anchor="middle">Grader</text>
+  <line class="line flow" x1="1050" y1="315" x2="1085" y2="315"/>
+  <rect class="solid" x="1095" y="270" width="45" height="90"/>
+  <text class="inverse label" x="1117.5" y="325" text-anchor="middle">1</text>
+
+  <text class="soft small" x="500" y="525">The evidence boundary defines what the grader can call “correct”.</text>
+</svg>

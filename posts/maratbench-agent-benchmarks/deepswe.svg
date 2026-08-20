@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSWE evaluation design</title>
+  <desc id="desc">Only the committed diff crosses from the agent workspace into a clean verifier. The verifier applies that diff and hidden tests to the fixed base. Every feature and regression test must pass for reward one.</desc>
+  <defs>
+    <style>
+      .paper{fill:#fff}.ink{fill:#1a1a1a}.soft{fill:#6b6b6b}.rule{stroke:#d4d4d4;stroke-width:2}.line{stroke:#6b6b6b;stroke-width:3;fill:none;stroke-linecap:square;stroke-linejoin:miter}.box{stroke:#d4d4d4;stroke-width:2;fill:none}.dash{stroke:#6b6b6b;stroke-width:2;stroke-dasharray:10 9;fill:none}.solid{fill:#1a1a1a}.inverse{fill:#fff}.arrowhead{fill:#6b6b6b}text{font-family:Charter,'Iowan Old Style',Georgia,'Times New Roman',serif}.title{font-size:48px;font-weight:700}.label{font-size:23px;font-weight:700}.body{font-size:28px}.compact{font-size:25px}.small{font-size:21px}.result{font-size:34px;font-weight:700}.flow{marker-end:url(#arrow)}
+      @media(prefers-color-scheme:dark){.paper{fill:#141414}.ink{fill:#e8e8e8}.soft{fill:#909090}.rule,.box{stroke:#333}.line,.dash{stroke:#909090}.solid{fill:#e8e8e8}.inverse{fill:#141414}.arrowhead{fill:#909090}}
+    </style>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path class="arrowhead" d="M0 0 9 4.5 0 9Z"/></marker>
+  </defs>
+
+  <rect class="paper" width="1200" height="720"/>
+  <g transform="translate(60 50) scale(1.18)">
+    <rect class="ink" width="54" height="54"/>
+    <g transform="translate(8.4 8.4) scale(.73)" class="paper">
+      <path d="M44.359 50.3612H15.1535c-.5498 0-1.0905-.1392-1.572-.4046-2.6617-1.4673-2.0453-5.5424.8318-6.522 8.314-2.8306 11.6838-7.0154 13.6437-15.2719 3.2172-10.1727 7.4923-15.0281 15.483-17.5537 3.5064-1.1084 6.822 1.7966 6.822 5.4741v28.2755c0 3.3153-2.6875 6.0028-6.003 6.0028Z"/>
+      <path d="M6.0012 0h29.2055c.5498 0 1.0906.1392 1.572.4046 2.6617 1.4672 2.0453 5.5425-.8318 6.522-8.314 2.8306-11.6837 7.0155-13.6435 15.2719-3.2172 10.1727-7.4923 15.0281-15.483 17.554-3.5064 1.1083-6.822-1.7968-6.822-5.4743V6.0028C-.0016 2.6875 2.686 0 6.0012 0Z"/>
+    </g>
+  </g>
+  <text class="ink title" x="145" y="96">DeepSWE</text>
+  <line class="rule" x1="60" y1="135" x2="1140" y2="135"/>
+
+  <rect class="box" x="60" y="245" width="245" height="190"/>
+  <text class="soft label" x="90" y="290">Agent workspace</text>
+  <text class="ink compact" x="90" y="340">inspect · edit</text>
+  <text class="ink compact" x="90" y="378">test</text>
+  <text class="ink compact" x="90" y="416">branch · commit</text>
+
+  <line class="line flow" x1="305" y1="340" x2="370" y2="340"/>
+  <rect class="box" x="380" y="285" width="205" height="110"/>
+  <text class="ink body" x="482.5" y="332" text-anchor="middle">Committed</text>
+  <text class="ink body" x="482.5" y="370" text-anchor="middle">diff only</text>
+
+  <text class="soft small" x="645" y="190" text-anchor="middle">scoring boundary</text>
+  <line class="dash" x1="645" y1="205" x2="645" y2="535"/>
+  <line class="line flow" x1="585" y1="340" x2="690" y2="340"/>
+  <text class="soft small" x="350" y="465">Uncommitted files stop here</text>
+
+  <rect class="box" x="700" y="220" width="285" height="240"/>
+  <text class="soft label" x="730" y="265">Clean verifier</text>
+  <text class="ink body" x="730" y="315">fixed base + diff</text>
+  <line class="rule" x1="730" y1="340" x2="955" y2="340"/>
+  <text class="ink body" x="730" y="385">all feature tests</text>
+  <text class="ink body" x="730" y="425">all regression tests</text>
+
+  <line class="line flow" x1="985" y1="340" x2="1030" y2="340"/>
+  <rect class="solid" x="1040" y="285" width="100" height="110"/>
+  <text class="inverse label" x="1090" y="327" text-anchor="middle">Reward</text>
+  <text class="inverse result" x="1090" y="370" text-anchor="middle">1</text>
+
+  <text class="soft small" x="700" y="535">The reference patch is for audit, not comparison.</text>
+</svg>
