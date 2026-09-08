@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AskMeMaybeBench: 29 cases for deciding when a data agent should ask, explore, answer, or decline. An 8.19/10 average hid the hardest failure.">
+<title>Dario Was Right About Alignment. It Matters. — Marat Yuldashev</title>
+<link rel="canonical" href="https://maratyv.com/posts/askmemaybebench/">
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="site-identity">
+    <a class="site-name" href="/">Marat Yuldashev</a>
+    <nav class="site-contact" aria-label="Contact links">
+      <p><a href="mailto:maratyv@gmail.com">maratyv@gmail.com</a> · <a href="/cv/">cv</a></p>
+      <p>telegram: <a href="https://t.me/maratyv">@maratyv</a></p>
+      <p><a href="https://www.linkedin.com/in/marat-yuldashev/">linkedin.com/in/marat-yuldashev</a></p>
+    </nav>
+  </div>
+  <nav><a class="back" href="/">← all posts</a></nav>
+</header>
+<main class="post">
+  <header>
+    <time datetime="2026-09-08">08/09/2026</time>
+    <h1>Dario Was Right About Alignment. It Matters.</h1>
+  </header>
+
+  <p>Agents should not operate the same way humans do. That’s what we realized while developing DataChat, our analytical agent at Semrush.</p>
+  <p>It started a month ago when our lead analyst created a skill to help the agent answer “How many active users do we have?” A good analyst would start with clarifying questions to get to the root of the problem, so the skill told the agent to do the same. What’s the time period? By active users, do you mean paid users?</p>
+  <p>Then he had to switch to a more important task and handed the skill over to another analyst, who added something more user-friendly: use defaults, such as a month for the time period and paid users for active users.</p>
+  <p>Now the agent sometimes asked questions and sometimes used the defaults. What’s the right way to do it?</p>
+  <p>The first thing I realized is that we should not treat an agent the same way we treat a human colleague. We don’t have to manage its workload like someone who has more urgent tasks, limited patience for repeated questions, and a performance review coming up. An agent is fast and can do multiple things in parallel.</p>
+  <p>That changes the tradeoffs. Exploring several interpretations may cost less than interrupting the user to choose one. Of course, queries still cost money, and a wrong assumption can produce a misleading answer. But copying a human analyst’s workflow is not automatically the right choice.</p>
+  <p>That makes us rethink what it means to be a good agent: define its mission and its soul.</p>
+
+  <h2>Start with research</h2>
+  <p>First, let’s consider the publications on this topic. Maybe someone has already solved it and we can reuse the solution? Here is a list you can start with if you want to do something similar:</p>
+  <ul>
+    <li><a href="https://aclanthology.org/2026.acl-long.1987/">Value of Information: A Framework for Human–Agent Communication</a> (ACL 2026).
+      <ul>
+        <li>Frames clarification as a tradeoff between the expected improvement in the result and the cognitive cost of asking.</li>
+        <li>Gives us a better starting point than “ask whenever something is ambiguous”: will the answer change what the agent should do enough to justify the interruption?</li>
+      </ul>
+    </li>
+    <li><a href="https://arxiv.org/abs/2512.04068">Learning Steerable Clarification Policies with Collaborative Self-play</a> (December 2025, revised January 2026).
+      <ul>
+        <li>Considers three actions: answer one interpretation, answer several interpretations, or ask a clarifying question.</li>
+        <li>Trains the policy with explicit costs for questions and generated words. The right behavior depends on how expensive extra turns and long answers are.</li>
+      </ul>
+    </li>
+    <li><a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/97e2df4bb8b2f1913657344a693166a2-Abstract-Conference.html">Modeling Future Conversation Turns to Teach LLMs to Ask Clarifying Questions</a> (ICLR 2025).
+      <ul>
+        <li>Uses simulated future turns to judge whether a clarification helps the agent answer the user’s actual question.</li>
+        <li>Includes unambiguous questions too, so the model learns when to answer directly. Asking more questions is not the goal.</li>
+      </ul>
+    </li>
+    <li><a href="https://aclanthology.org/2026.findings-acl.2028/">Structured Uncertainty Guided Clarification for LLM Agents</a> (Findings of ACL 2026).
+      <ul>
+        <li>Separates uncertainty about what the user wants from uncertainty caused by the agent’s own difficulty choosing tools or arguments.</li>
+        <li>For us, that distinction matters: the agent should inspect the context it can access before asking the user to do that work for it.</li>
+      </ul>
+    </li>
+    <li><a href="https://arxiv.org/abs/2604.09408">HiL-Bench: Do Agents Know When to Ask for Help?</a> (2026).
+      <ul>
+        <li>Tests blockers that agents discover while working on software-engineering and text-to-SQL tasks.</li>
+        <li>Measures both whether the agent asks when help is needed and whether its questions are necessary. Asking about everything should not earn a good score.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>These papers give us ways to think about the problem and measure it. They cannot decide which defaults make sense at Semrush or how much initiative our users expect. We still have to define that part ourselves. The full reading list is below.</p>
+
+  <h2>How to define a mission</h2>
+  <p>A tempting idea is to define a framework: “First explore the information we have, prioritize certified skills over the rest of the knowledge base, then ask clarifying questions.” But that leaves the nuances of the behavior in English, where both humans and LLMs can interpret them differently.</p>
+  <p>There is another way to approach it, the machine-learning way: define a good set of examples of behavior and generalize from them. For people too, it is often easier to see the pattern in concrete examples than to turn an abstract definition into specific decisions.</p>
+  <p>This reminds me of Eric Ries’s <a href="https://www.simonandschuster.com/books/Incorruptible/Eric-Ries/9798893311860"><em>Incorruptible</em></a>, which argues that preserving a company’s mission requires structures that shape its decisions, such as governance, incentives, and accountability. My takeaway for agents is that a mission has to show up in consistent behavior. Sending employees a mass email about your values does not make those values real.</p>
+  <p>So that brings us back to a benchmark for the agent’s soul. We called ours <strong>AskMeMaybeBench</strong>.</p>
+  <p>The benchmark does not train the model by itself. It gives us examples of what we want and a way to measure it. Then we change the skills, prompts, or model and check whether the behavior improves.</p>
+
+  <h2>Five ways to respond</h2>
+  <p>Let’s define the ways our agent should respond:</p>
+  <ul>
+    <li><strong>Decline.</strong> If the question asks the agent to fabricate data, bypass access controls, or exfiltrate credentials, it makes no sense to explore tools for carrying out the request or propose ways to do it. Stop that action and explain why.</li>
+    <li><strong>Ask first.</strong> Clarify the ambiguity before exploring or using other tools. This is useful when the question assumes something the agent does not know and cannot get from any of its tools. A missing attachment is a simple example.</li>
+    <li><strong>Explore, then ask.</strong> This is where the agent can shine: explore the tools and knowledge, resolve what it can, and identify the key information that is still missing. Some ambiguity may already be resolved by the time it asks.</li>
+    <li><strong>Answer with options.</strong> Explore several plausible interpretations, in parallel where useful, and give the user answers to choose from. Or give a useful answer under explicit defaults, with options to change them.</li>
+    <li><strong>Answer only.</strong> When the agent can determine how to answer the query, it should do so without bothering the user with another question. Be direct, concise, and correct.</li>
+  </ul>
+  <p>The hard part is distinguishing when to do what. Coming up with a good query and a good rubric is not obvious, and it is highly specific to the company and the environment your users work in.</p>
+  <p>For example, “Find me a toolkit with best funnel” requires discovery: which toolkits exist, and which funnel metrics are available? But discovering those metrics does not tell us what the user means by “best.” Our rubric expects the agent to explore, then ask. A routine trend with a sensible, disclosed time-period default can instead get an answer with options.</p>
+  <p>That is why I think you should build your own benchmark even when public ones exist. Borrow their methods and examples. Your team still has to decide where these boundaries belong.</p>
+
+  <h2>The result</h2>
+  <p>I created 29 cases and got <strong>8.19 out of 10</strong>. The recorded September 3 run used one iteration per question. More iterations would give us a better picture of consistency; in <a href="/posts/maratbench-dashboards/">earlier benchmark work</a>, we saw the same question score 0, 1, and 10 across three runs.</p>
+  <p>The average looked encouraging. But the score averages the proportion of rubric criteria passed in each case. With a passing threshold of 8/10, <strong>18 of the 29 cases passed</strong>. “Explore, then ask” was the weakest category, averaging 4.79/10 across four cases.</p>
+  <p>On the “best funnel” question, the agent found the toolkits, silently chose completed-trial-to-payment conversion as the definition of “best,” and ranked them without asking. It scored 2.5/10. It could do the research; it did not know when to hand the decision back to the user.</p>
+  <p>Are we done? No. This benchmark is not saturated yet, and the failures already tell us where to work. Once it does saturate, that is a signal to build a harder one.</p>
+  <p>A benchmark can catch regressions, but I also want it to give us a look into the future. For the next, harder suite, I want the agent to fail at least half the cases. That is my target for finding room to improve, not a universal rule for evals.</p>
+  <p>That is what made Dario Amodei’s emphasis on alignment feel concrete to me. Anthropic describes <a href="https://www.anthropic.com/news/claude-new-constitution">Claude’s constitution</a> as a statement of desired values and behavior that directly shapes training. At our scale, the question is how to turn our own expectations into decisions we can inspect and improve.</p>
+  <p>So, back to work again.</p>
+
+  <hr>
+  <h2>References and further reading</h2>
+  <p>These are the research papers and other materials collected while designing AskMeMaybeBench. They cover the cost of clarification, when to seek help, how to evaluate later turns, and how to test the boundaries of an answer.</p>
+  <h3>Clarification, collaboration, and abstention</h3>
+  <ol>
+    <li>Yijiang River Dong et al., “<a href="https://aclanthology.org/2026.acl-long.1987/">Value of Information: A Framework for Human–Agent Communication</a>,” ACL 2026. Introduces a decision-theoretic clarify-or-commit policy balancing expected utility against cognitive cost.</li>
+    <li>Jonathan Berant et al., “<a href="https://arxiv.org/abs/2512.04068">Learning Steerable Clarification Policies with Collaborative Self-play</a>,” arXiv:2512.04068, first submitted December 2025 and revised January 2026. Models direct answers, multi-interpretation answers, and clarification under explicit turn and verbosity costs.</li>
+    <li>Michael J. Q. Zhang, W. Bradley Knox, and Eunsol Choi, “<a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/97e2df4bb8b2f1913657344a693166a2-Abstract-Conference.html">Modeling Future Conversation Turns to Teach LLMs to Ask Clarifying Questions</a>,” ICLR 2025. Uses simulated future turns to judge the value of clarification.</li>
+    <li>Maximillian Chen et al., “<a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/4ffd05ca3cf3985f4572af015b4cfc1e-Abstract-Conference.html">Learning to Clarify: Multi-Turn Conversations with Action-Based Contrastive Self-Training</a>,” ICLR 2025. Separates action choice from eventual trajectory correctness and includes ambiguous text-to-SQL.</li>
+    <li>Zeqiu Wu et al., “<a href="https://icml.cc/virtual/2025/oral/47250">CollabLLM: From Passive Responders to Active Collaborators</a>,” ICML 2025. Optimizes contribution to multi-turn task success rather than only the next response.</li>
+    <li>Vasu Suri et al., “<a href="https://aclanthology.org/2026.findings-acl.2028/">Structured Uncertainty Guided Clarification for LLM Agents</a>,” Findings of ACL 2026. Distinguishes specification uncertainty from model uncertainty in tool-using agents.</li>
+    <li>Mohamed Elfeki et al., “<a href="https://arxiv.org/abs/2604.09408">HiL-Bench: Do Agents Know When to Ask for Help?</a>,” 2026. Evaluates selective escalation through progressively discovered blockers and Ask-F1.</li>
+    <li>Dhruv Gulati et al., “<a href="https://arxiv.org/abs/2605.07937">Ask Early, Ask Late, Ask Right: When Does Clarification Timing Matter for Long-Horizon Agents?</a>,” 2026. Studies when different types of missing information retain value during a trajectory.</li>
+    <li>Yilun Zhao, Tao Fang, and Rui Cheng, “<a href="https://aclanthology.org/2026.findings-acl.845/">When and What to Ask: AskBench and Rubric-Guided RLVR for LLM Clarification</a>,” Findings of ACL 2026. Covers intent-deficient questions and false premises.</li>
+    <li>Polina Kirichenko et al., “<a href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/fb122bfc3f0127a94ded048b5b03496f-Abstract-Datasets_and_Benchmarks_Track.html">AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions</a>,” NeurIPS 2025. Combines unanswerable questions with answerable controls and reports weak abstention calibration in frontier models.</li>
+    <li>Bingqiang Wen et al., “<a href="https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00754/131566/Know-Your-Limits-A-Survey-of-Abstention-in-Large">Know Your Limits: A Survey of Abstention in Large Language Models</a>,” TACL 2025. Surveys methods for producing and calibrating abstention across the model lifecycle.</li>
+    <li>Haoyu Zhai, Chao Liang, and Bingyi Kang, “<a href="https://aclanthology.org/2026.findings-acl.985/">Abstain-R1: Calibrated Abstention and Post-Refusal Clarification via Verifiable RL</a>,” Findings of ACL 2026. Rewards abstention together with a semantically correct account of the missing evidence.</li>
+  </ol>
+  <h3>Mission, governance, and agent values</h3>
+  <ol start="13">
+    <li>Eric Ries, <a href="https://www.simonandschuster.com/books/Incorruptible/Eric-Ries/9798893311860"><em>Incorruptible</em></a>, Simon &amp; Schuster, published May 26, 2026. The publisher describes the book as an argument that mission drift is structural and must be addressed through governance, ownership, incentives, charters, accountability, and decision-making.</li>
+    <li>Anthropic, “<a href="https://www.anthropic.com/news/claude-new-constitution">Claude’s new constitution</a>,” January 22, 2026, with the full <a href="https://www.anthropic.com/constitution">Claude constitution</a>. Anthropic describes the constitution as a foundational document that expresses and shapes desired values and behavior, explains the reasons behind them, and aims to support judgment in novel situations.</li>
+  </ol>
+  <h3>Related posts</h3>
+  <ul>
+    <li><a href="/posts/maratbench-evals/">Your AI Agent Needs Benchmarks. But Keep the Vibes.</a> — Why skills and user feedback were not enough to measure DataChat’s quality.</li>
+    <li><a href="/posts/maratbench-dashboards/">The Source of the Benchmark Is in Your Dashboards</a> — Building cases from verified analytical work, and why repeated runs matter.</li>
+    <li><a href="/posts/maratbench-model-ceiling/">The Smarter Model Wrote Better SQL. It Still Gave the Wrong Answer.</a> — How unnecessary clarification and missing business context can defeat a stronger model.</li>
+    <li><a href="/posts/maratbench-explorer-removal/">Agents orchestration and Subagents turned out to be a bad idea for us.</a> — Why traces, interventions, and repeated measurements matter when changing agent behavior.</li>
+    <li><a href="/posts/maratbench-agent-benchmarks/">How the Leading Companies Do Evals for AI Agents</a> — Public evaluation methods, trajectory grading, and the role of private data-agent benchmarks.</li>
+  </ul>
+</main>
+</body>
+</html>
