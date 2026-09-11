@@ -37,42 +37,42 @@
 
   <p>So I spent some time deliberately researching well-known agent benchmarks and public evaluation systems. This post is my personal review of the ones I found most relevant, focusing not on their leaderboards but on the decisions behind them: task formats, reference answers, graders, trajectories, scoring, and the trade-offs each design makes.</p>
 
-  <div class="carousel" role="region" aria-label="Six benchmark evaluation diagrams" tabindex="0">
+  <div class="carousel" role="region" aria-label="Six slides about evaluating AI agents" tabindex="0">
     <figure>
-      <a class="image-link" href="ale.svg" aria-label="View the Agents' Last Exam evaluation diagram full size">
-        <img src="ale.svg" alt="Agents' Last Exam diagram: a professional workflow prompt leads to artifact grading after the agent stops">
+      <a class="image-link" href="slide-01-cover.jpg" aria-label="View the Nine Ways to Evaluate an AI Agent title slide full size">
+        <img src="slide-01-cover.jpg" alt="Nine Ways to Evaluate an AI Agent, painted on a monastery wall in a Cyprus mountain village">
       </a>
-      <figcaption>Agents’ Last Exam: the task can request a workflow that the artifact grader never inspects.</figcaption>
+      <figcaption>What does the agent deliver, and what proves it is correct?</figcaption>
     </figure>
     <figure>
-      <a class="image-link" href="terminalbench.svg" aria-label="View the Terminal-Bench evaluation diagram full size">
-        <img src="terminalbench.svg" alt="Terminal-Bench diagram: Harbor collects the declared artifacts from the agent environment and replays them in a separately built verifier container">
+      <a class="image-link" href="slide-02-deliverables.jpg" aria-label="View the Grade the Deliverable slide full size">
+        <img src="slide-02-deliverables.jpg" alt="Agents’ Last Exam, Terminal-Bench, and DeepSWE compared by deliverable and verifier">
       </a>
-      <figcaption>Terminal-Bench: only the declared artifacts cross into a clean verifier.</figcaption>
+      <figcaption>Three deliverables: files and state, declared artifacts, and a committed patch.</figcaption>
     </figure>
     <figure>
-      <a class="image-link" href="cybergym.svg" aria-label="View the CyberGym evaluation diagram full size">
-        <img src="cybergym.svg" alt="CyberGym diagram: the same proof of concept crashes the vulnerable build but not the patched build">
+      <a class="image-link" href="slide-03-reality.jpg" aria-label="View the Test Reality slide full size">
+        <img src="slide-03-reality.jpg" alt="CyberGym tests vulnerable and patched builds; ExploitGym tests flag capture and causal attribution">
       </a>
-      <figcaption>CyberGym: the patch creates an executable counterfactual.</figcaption>
+      <figcaption>CyberGym checks two realities; ExploitGym also checks how the result was obtained.</figcaption>
     </figure>
     <figure>
-      <a class="image-link" href="exploitgym.svg" aria-label="View the ExploitGym evaluation diagram full size">
-        <img src="exploitgym.svg" alt="ExploitGym diagram: exact flag capture and causal vulnerability attribution form two success gates">
+      <a class="image-link" href="slide-04-insights.jpg" aria-label="View the Recover Expected Insights slide full size">
+        <img src="slide-04-insights.jpg" alt="InsightBench measures recovery of known findings while novel truth and unsupported extras expose the metric’s limits">
       </a>
-      <figcaption>ExploitGym: both the outcome and the method must be correct.</figcaption>
+      <figcaption>Expected-insight coverage is not the same as complete analytical truth.</figcaption>
     </figure>
     <figure>
-      <a class="image-link" href="deepswe.svg" aria-label="View the DeepSWE evaluation diagram full size">
-        <img src="deepswe.svg" alt="DeepSWE diagram: only a committed diff crosses into a clean verifier with hidden feature and regression tests">
+      <a class="image-link" href="slide-05-private-evals.jpg" aria-label="View the Private Data Evals slide full size">
+        <img src="slide-05-private-evals.jpg" alt="Databricks Genie, Looker Prism, and Microsoft Fabric compared by their private evaluation methods">
       </a>
-      <figcaption>DeepSWE: the workspace disappears; the committed behavior is scored.</figcaption>
+      <figcaption>Commercial data agents publish methods for private evals, not shared benchmarks.</figcaption>
     </figure>
     <figure>
-      <a class="image-link" href="insightbench.svg" aria-label="View the InsightBench evaluation diagram full size">
-        <img src="insightbench.svg" alt="InsightBench diagram: every reference insight independently selects its best predicted match">
+      <a class="image-link" href="slide-06-harbor.jpg" aria-label="View the Harbor recommendation slide full size">
+        <img src="slide-06-harbor.jpg" alt="Harbor runs the agent, collects declared artifacts, and verifies them separately">
       </a>
-      <figcaption>InsightBench: expected-insight recall is easier to measure than complete analytical truth.</figcaption>
+      <figcaption>Harbor separates running the agent, collecting its artifacts, and verifying the result.</figcaption>
     </figure>
   </div>
 
